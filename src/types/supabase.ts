@@ -211,86 +211,7 @@ export type Database = {
             referencedColumns: ["id"]
           }
         ]
-      }
-      hoppn_dishes: {
-        Row: {
-          id: string
-          restaurant_id: string
-          name: string
-          description: string
-          cultural_story: string | null
-          category: Database['public']['Enums']['dish_category']
-          origin_country: string
-          african_region: Database['public']['Enums']['cuisine_region']
-          spice_level: number
-          preparation_time: number
-          ingredients: string[]
-          allergens: string[]
-          dietary_tags: string[]
-          price: number
-          sizes: Json
-          primary_image_url: string | null
-          additional_images: string[]
-          available: boolean
-          stock_quantity: number | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          restaurant_id: string
-          name: string
-          description: string
-          cultural_story?: string | null
-          category: Database['public']['Enums']['dish_category']
-          origin_country: string
-          african_region: Database['public']['Enums']['cuisine_region']
-          spice_level: number
-          preparation_time: number
-          ingredients: string[]
-          allergens: string[]
-          dietary_tags: string[]
-          price: number
-          sizes?: Json
-          primary_image_url?: string | null
-          additional_images?: string[]
-          available?: boolean
-          stock_quantity?: number | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          restaurant_id?: string
-          name?: string
-          description?: string
-          cultural_story?: string
-          category?: Database['public']['Enums']['dish_category']
-          origin_country?: string
-          african_region?: Database['public']['Enums']['cuisine_region']
-          spice_level?: number
-          preparation_time?: number
-          ingredients?: string[]
-          allergens?: string[]
-          dietary_tags?: string[]
-          price?: number
-          sizes?: Json
-          primary_image_url?: string | null
-          additional_images?: string[]
-          available?: boolean
-          stock_quantity?: number | null
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "hoppn_dishes_restaurant_id_fkey"
-            columns: ["restaurant_id"]
-            referencedRelation: "restaurants"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
+      },
       orders: {
         Row: {
           id: string
@@ -363,6 +284,230 @@ export type Database = {
             foreignKeyName: "orders_restaurant_id_fkey"
             columns: ["restaurant_id"]
             referencedRelation: "restaurants"
+            referencedColumns: ["id"]
+          }
+        ]
+      },
+      hoppn_dishes: {
+        Row: {
+          id: string
+          name: string
+          description: string
+          category: Database['public']['Enums']['dish_category']
+          country_origin: string
+          country_flag: string
+          country_id: string
+          base_spice_level: number
+          origin_story: string | null
+          base_ingredients: string[]
+          cultural_significance: string | null
+          health_benefits: string | null
+          native_regions: string[]
+          taste_profile: string | null
+          preparation_method: string | null
+          is_vegetarian: boolean
+          is_vegan: boolean
+          is_halal: boolean
+          calories: number | null
+          is_active: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          description: string
+          category: Database['public']['Enums']['dish_category']
+          country_origin: string
+          country_flag: string
+          country_id: string
+          base_spice_level?: number
+          origin_story?: string | null
+          base_ingredients?: string[]
+          cultural_significance?: string | null
+          health_benefits?: string | null
+          native_regions?: string[]
+          taste_profile?: string | null
+          preparation_method?: string | null
+          is_vegetarian?: boolean
+          is_vegan?: boolean
+          is_halal?: boolean
+          calories?: number | null
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          description?: string
+          category?: Database['public']['Enums']['dish_category']
+          country_origin?: string
+          country_flag?: string
+          country_id?: string
+          base_spice_level?: number
+          origin_story?: string | null
+          base_ingredients?: string[]
+          cultural_significance?: string | null
+          health_benefits?: string | null
+          native_regions?: string[]
+          taste_profile?: string | null
+          preparation_method?: string | null
+          is_vegetarian?: boolean
+          is_vegan?: boolean
+          is_halal?: boolean
+          calories?: number | null
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      },
+      dishes: {
+        Row: {
+          id: string
+          restaurant_id: string
+          hoppn_dish_id: string | null
+          name: string
+          description: string
+          image_url: string | null
+          price: number
+          size_options: string[] | null
+          custom_ingredients: string | null
+          restaurant_notes: string | null
+          chef_special: boolean
+          category: Database['public']['Enums']['dish_category']
+          country_origin: string
+          country_flag: string
+          is_active: boolean
+          status: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          restaurant_id: string
+          hoppn_dish_id?: string | null
+          name: string
+          description: string
+          image_url?: string | null
+          price: number
+          size_options?: string[] | null
+          custom_ingredients?: string | null
+          restaurant_notes?: string | null
+          chef_special?: boolean
+          category: Database['public']['Enums']['dish_category']
+          country_origin: string
+          country_flag: string
+          is_active?: boolean
+          status?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          restaurant_id?: string
+          hoppn_dish_id?: string | null
+          name?: string
+          description?: string
+          image_url?: string | null
+          price?: number
+          size_options?: string[] | null
+          custom_ingredients?: string | null
+          restaurant_notes?: string | null
+          chef_special?: boolean
+          category?: Database['public']['Enums']['dish_category']
+          country_origin?: string
+          country_flag?: string
+          is_active?: boolean
+          status?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dishes_restaurant_id_fkey"
+            columns: ["restaurant_id"]
+            referencedRelation: "restaurants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dishes_hoppn_dish_id_fkey"
+            columns: ["hoppn_dish_id"]
+            referencedRelation: "hoppn_dishes"
+            referencedColumns: ["id"]
+          }
+        ]
+      },
+      reviews: {
+        Row: {
+          id: string
+          user_id: string
+          dish_id: string
+          restaurant_id: string
+          order_id: string
+          rating: number
+          comment: string
+          spice_level_rating: number | null
+          authenticity_rating: number | null
+          cultural_experience_rating: number | null
+          overall_experience: number | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          dish_id: string
+          restaurant_id: string
+          order_id: string
+          rating: number
+          comment: string
+          spice_level_rating?: number | null
+          authenticity_rating?: number | null
+          cultural_experience_rating?: number | null
+          overall_experience?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          dish_id?: string
+          restaurant_id?: string
+          order_id?: string
+          rating?: number
+          comment?: string
+          spice_level_rating?: number | null
+          authenticity_rating?: number | null
+          cultural_experience_rating?: number | null
+          overall_experience?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_restaurant_id_fkey"
+            columns: ["restaurant_id"]
+            referencedRelation: "restaurants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_dish_id_fkey"
+            columns: ["dish_id"]
+            referencedRelation: "dishes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_order_id_fkey"
+            columns: ["order_id"]
+            referencedRelation: "orders"
             referencedColumns: ["id"]
           }
         ]

@@ -16,7 +16,8 @@ import {
   Search, 
   Bell, 
   ChevronDown,
-  LogOut 
+  LogOut,
+  Star
 } from 'lucide-react'
 
 interface DashboardLayoutProps {
@@ -28,6 +29,7 @@ const navItems = [
   { name: 'Orders', href: '/dashboard/orders', icon: ShoppingBag, badge: 0 },
   { name: 'Menu', href: '/dashboard/menu', icon: Utensils },
   { name: 'Restaurant', href: '/dashboard/restaurant', icon: Store },
+  { name: 'Reviews', href: '/dashboard/reviews', icon: Star },
   { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart },
   { name: 'Payments', href: '/dashboard/payments', icon: CreditCard },
   { name: 'Messages', href: '/dashboard/messages', icon: MessageCircle },

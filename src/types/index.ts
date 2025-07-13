@@ -8,6 +8,7 @@ export type PendingVendor = Tables<'pending_vendors'>
 export type VendorUser = Tables<'vendor_users'>
 export type Restaurant = Tables<'restaurants'>
 export type HoppnDish = Tables<'hoppn_dishes'>
+export type Dish = Tables<'dishes'>
 export type Order = Tables<'orders'>
 
 // Enums
@@ -34,7 +35,7 @@ export interface DashboardMetrics {
   }
 }
 
-export interface OrderWithItems extends Order {
+export interface OrderWithItems extends Omit<Order, 'items'> {
   items: OrderItem[]
   customer: {
     name: string
@@ -44,6 +45,7 @@ export interface OrderWithItems extends Order {
 }
 
 export interface OrderItem {
+  [key: string]: any
   id: string
   dish_id: string
   dish_name: string

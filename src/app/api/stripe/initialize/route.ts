@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
     // Initialize Stripe with the API key
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2023-10-16',
+      apiVersion: '2025-06-30.basil',
     })
 
     // Verify the API key by making a simple call to Stripe
