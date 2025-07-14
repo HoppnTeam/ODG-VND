@@ -63,7 +63,7 @@ export default function ReviewsPage() {
           dish:dish_id(*),
           order:order_id(*)
         `)
-        .eq('restaurant_id', user?.restaurant?.id)
+        .eq('restaurant_id', user?.restaurant?.id!)
         .order('created_at', { ascending: false })
 
       if (error) throw error
@@ -82,7 +82,7 @@ export default function ReviewsPage() {
       const { data, error } = await supabase
         .from('dishes')
         .select('id, name')
-        .eq('restaurant_id', user?.restaurant?.id)
+        .eq('restaurant_id', user?.restaurant?.id!)
 
       if (error) throw error
       setDishes(data || [])
