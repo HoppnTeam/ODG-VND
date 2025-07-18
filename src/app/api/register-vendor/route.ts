@@ -21,11 +21,15 @@ export async function POST(request: NextRequest) {
       console.log('User already exists, using existing user')
       authData.user = existingUser
     } else {
-      // Create new auth user if they don't exist
+      // Create new auth user with vendor metadata
       const result = await supabaseAdmin.auth.admin.createUser({
         email,
         password,
-        email_confirm: true, // Auto-confirm email for testing
+        email_confirm: true,
+        user_metadata: {
+          user_type: 'vendor', // Mark as vendor to distinguish from customers
+          registration_type: 'vendor'
+        }
       })
       
       authData = result.data

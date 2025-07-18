@@ -153,6 +153,8 @@ export type Database = {
           avg_rating: number
           total_reviews: number
           status: 'active' | 'inactive' | 'suspended'
+          stripe_account_id: string | null
+          stripe_onboarding_status: string | null
           created_at: string
           updated_at: string
         }
@@ -176,6 +178,8 @@ export type Database = {
           avg_rating?: number
           total_reviews?: number
           status?: 'active' | 'inactive' | 'suspended'
+          stripe_account_id?: string | null
+          stripe_onboarding_status?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -199,6 +203,8 @@ export type Database = {
           avg_rating?: number
           total_reviews?: number
           status?: 'active' | 'inactive' | 'suspended'
+          stripe_account_id?: string | null
+          stripe_onboarding_status?: string | null
           created_at?: string
           updated_at?: string
         }

@@ -79,11 +79,11 @@ export function useAuth() {
 
       let restaurant = null
       if (vendorUser) {
-        // Get restaurant data directly using auth_user_id
+        // Get restaurant data using auth_user_id directly
         const { data: restaurantData, error: restaurantError } = await supabase
           .from('restaurants')
           .select('*')
-          .eq('vendor_id', user.id) // Use Supabase Auth UUID directly
+          .eq('vendor_id', user.id) // Use auth_user_id directly
           .single()
         
         if (restaurantError && restaurantError.code !== 'PGRST116') {

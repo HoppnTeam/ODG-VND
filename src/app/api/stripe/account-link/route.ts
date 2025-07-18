@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { requireAuth, serverDbHelpers } from '@/lib/supabase-server'
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-06-30.basil',
+  apiVersion: '2024-06-20',
 })
 
 export async function POST(request: NextRequest) {
@@ -18,25 +17,28 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    const supabase = createRouteHandlerClient({ cookies })
+    // Require authentication
+    const user = await requireAuth()
     
-    // Get the current user
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+    // Get restaurant and verify ownership
+    const { data: restaurant, error: restaurantError } = await serverDbHelpers.getRestaurantByAuthUserId(user.id)
+    
+    if (restaurantError || !restaurant) {
       return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
+        { error: 'Restaurant not found or access denied' },
+        { status: 404 }
       )
     }
     
-    // Get restaurant's Stripe account ID
-    const { data: restaurant, error: restaurantError } = await supabase
-      .from('restaurants')
-      .select('stripe_account_id')
-      .eq('id', restaurantId)
-      .single()
-      
-    if (restaurantError || !restaurant.stripe_account_id) {
+    // Verify the restaurant ID matches the authenticated user's restaurant
+    if (restaurant.id !== restaurantId) {
+      return NextResponse.json(
+        { error: 'Unauthorized access to restaurant' },
+        { status: 403 }
+      )
+    }
+    
+    if (!restaurant.stripe_account_id) {
       return NextResponse.json(
         { error: 'Stripe account not found' },
         { status: 404 }

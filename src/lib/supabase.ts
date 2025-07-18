@@ -1,3 +1,4 @@
+import { createBrowserClient } from '@supabase/ssr'
 import { createClient } from '@supabase/supabase-js'
 import { Database } from '@/types/supabase'
 
@@ -14,8 +15,8 @@ if (!supabaseAnonKey) {
   console.error('NEXT_PUBLIC_SUPABASE_ANON_KEY is not defined')
 }
 
-// Create client with fallback values to prevent runtime errors
-export const supabase = createClient<Database>(
+// Create browser client with proper session handling
+export const supabase = createBrowserClient<Database>(
   supabaseUrl || 'https://placeholder-url.supabase.co',
   supabaseAnonKey || 'placeholder-key'
 )
@@ -108,7 +109,7 @@ export const dbHelpers = {
     const { data, error } = await supabase
       .from('restaurants')
       .select('*')
-      .eq('vendor_id', vendorUser.auth_user_id)
+      .eq('vendor_user_id', vendorUser.auth_user_id)
       .single()
     
     return { data, error }

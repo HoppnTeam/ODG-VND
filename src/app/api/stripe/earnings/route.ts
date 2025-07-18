@@ -9,32 +9,27 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(request: NextRequest) {
   try {
     const { restaurantId } = await request.json()
-    
-    console.log('🔍 Account Status Debug:', { restaurantId })
-    
+
     if (!restaurantId) {
-      console.log('❌ No restaurant ID provided')
       return NextResponse.json(
         { error: 'Restaurant ID is required' },
         { status: 400 }
       )
     }
-    
+
     // Require authentication
     const user = await requireAuth()
-    console.log('✅ User authenticated:', user.id)
-    
+
     // Get restaurant and verify ownership
     const { data: restaurant, error: restaurantError } = await serverDbHelpers.getRestaurantByAuthUserId(user.id)
-    
+
     if (restaurantError || !restaurant) {
-      console.log('❌ Restaurant not found or access denied:', restaurantError)
       return NextResponse.json(
         { error: 'Restaurant not found or access denied' },
         { status: 404 }
       )
     }
-    
+
     // Verify the restaurant ID matches the authenticated user's restaurant
     if (restaurant.id !== restaurantId) {
       return NextResponse.json(
@@ -42,38 +37,47 @@ export async function POST(request: NextRequest) {
         { status: 403 }
       )
     }
-    
-    console.log('🏪 Restaurant verified:', { 
-      restaurantId: restaurant.id,
-      userId: user.id,
-      hasStripeAccount: !!restaurant.stripe_account_id
-    })
-    
+
     if (!restaurant.stripe_account_id) {
       return NextResponse.json({
-        connected: false,
-        account: null,
+        available: 0,
+        pending: 0,
+        total_volume: 0,
       })
     }
-    
-    // Get Stripe account details
-    const account = await stripe.accounts.retrieve(restaurant.stripe_account_id)
-    
-    return NextResponse.json({
-      connected: true,
-      account: {
-        id: account.id,
-        charges_enabled: account.charges_enabled,
-        details_submitted: account.details_submitted,
-        payouts_enabled: account.payouts_enabled,
-        requirements: account.requirements,
-      },
+
+    // Get balance from Stripe
+    const balance = await stripe.balance.retrieve({
+      stripeAccount: restaurant.stripe_account_id,
     })
-    
+
+    // Calculate totals
+    const available = balance.available.reduce((sum, balance) => sum + balance.amount, 0)
+    const pending = balance.pending.reduce((sum, balance) => sum + balance.amount, 0)
+
+    // Get total volume from payment intents
+    const charges = await stripe.charges.list(
+      {
+        limit: 100,
+      },
+      {
+        stripeAccount: restaurant.stripe_account_id,
+      }
+    )
+
+    const total_volume = charges.data
+      .filter(charge => charge.status === 'succeeded')
+      .reduce((sum, charge) => sum + charge.amount, 0)
+
+    return NextResponse.json({
+      available,
+      pending,
+      total_volume,
+    })
   } catch (error: any) {
-    console.error('Stripe account status error:', error)
+    console.error('Error fetching earnings:', error)
     return NextResponse.json(
-      { error: error.message || 'Failed to get account status' },
+      { error: error.message || 'Failed to fetch earnings' },
       { status: 500 }
     )
   }
