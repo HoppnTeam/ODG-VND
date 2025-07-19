@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Inter, Montserrat, Open_Sans } from "next/font/google";
 import "./globals.css";
 
+// Initialize console filtering for development
+if (process.env.NODE_ENV === 'development') {
+  import('@/lib/console-filter')
+}
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",

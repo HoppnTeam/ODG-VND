@@ -6,7 +6,7 @@
 // 
 // If authentication modifications are needed, contact code owner first
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 import { Database } from '@/types/supabase'
 import { useAuth } from './useAuth'
@@ -21,7 +21,7 @@ export function useOrders() {
   
   const restaurantId = user?.restaurant?.id
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     if (!restaurantId) return
     
     try {
@@ -41,7 +41,7 @@ export function useOrders() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [restaurantId])
 
   const updateOrderStatus = async (orderId: string, status: Database['public']['Enums']['order_status']) => {
     try {
@@ -68,7 +68,7 @@ export function useOrders() {
 
   useEffect(() => {
     fetchOrders()
-  }, [restaurantId])
+  }, [fetchOrders])
 
   return {
     orders,

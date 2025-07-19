@@ -6,7 +6,7 @@
 // 
 // If authentication modifications are needed, contact code owner first
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
 import { Database } from '@/types/supabase'
 import { useAuth } from './useAuth'
@@ -23,7 +23,7 @@ export function useDishes() {
   
   const restaurantId = user?.restaurant?.id
 
-  const fetchDishes = async () => {
+  const fetchDishes = useCallback(async () => {
     if (!restaurantId) return
     
     try {
@@ -43,7 +43,7 @@ export function useDishes() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [restaurantId])
 
   const createDish = async (dishData: Omit<DishInsert, 'id' | 'restaurant_id' | 'created_at' | 'updated_at'>) => {
     try {
@@ -114,7 +114,7 @@ export function useDishes() {
 
   useEffect(() => {
     fetchDishes()
-  }, [restaurantId])
+  }, [fetchDishes])
 
   return {
     dishes,

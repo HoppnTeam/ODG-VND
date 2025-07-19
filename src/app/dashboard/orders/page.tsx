@@ -4,6 +4,7 @@ import React, { useState, useCallback, useMemo } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useOrders } from '@/hooks/useOrders'
 import { LoadingPage } from '@/components/ui/loading'
+import { PageTransition } from '@/components/ui/PageTransition'
 import DashboardLayout from '@/components/dashboard/DashboardLayout'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -210,7 +211,7 @@ function OrdersPage() {
     ready: orders.filter(o => o.status === 'ready').length
   }), [orders])
 
-  if (authLoading || ordersLoading) {
+  if (authLoading) {
     return <LoadingPage message="Loading orders..." />
   }
 
@@ -218,22 +219,16 @@ function OrdersPage() {
     return null // Will be handled by dashboard layout
   }
 
-  if (error) {
-    return (
-      <DashboardLayout>
-        <div className="container mx-auto px-4 md:px-6 py-4 md:py-8">
-          <div className="bg-red-50 border border-red-200 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-red-800 mb-2">Error Loading Orders</h3>
-            <p className="text-red-600">{error}</p>
-          </div>
-        </div>
-      </DashboardLayout>
-    )
-  }
-
   return (
     <DashboardLayout>
-      <div className="container mx-auto px-4 md:px-6 py-4 md:py-8" style={{ backgroundColor: 'var(--color-earth-beige)' }}>
+      <PageTransition 
+        isLoading={ordersLoading}
+        error={error}
+        loadingMessage="Loading orders..."
+        errorTitle="Error Loading Orders"
+        onRetry={() => window.location.reload()}
+      >
+        <div className="container mx-auto px-4 md:px-6 py-4 md:py-8" style={{ backgroundColor: 'var(--color-earth-beige)' }}>
         {/* Header - Tablet Optimized */}
         <div className="rounded-xl shadow-sm p-4 md:p-6 mb-4 md:mb-6" style={{ backgroundColor: 'var(--color-warm-cream)' }}>
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
@@ -285,7 +280,8 @@ function OrdersPage() {
             </div>
           </div>
         )}
-      </div>
+        </div>
+      </PageTransition>
     </DashboardLayout>
   )
 }
