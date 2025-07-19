@@ -5,9 +5,20 @@ import { LoadingPage } from '@/components/ui/loading'
 import DashboardLayout from '@/components/dashboard/DashboardLayout'
 import { Button } from '@/components/ui/button'
 import { User, Lock, Bell, CreditCard, LogOut } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export default function SettingsPage() {
-  const { user, loading, isAuthenticated, isVendor, hasRestaurant } = useAuth()
+  const { user, loading, isAuthenticated, isVendor, hasRestaurant, signOut } = useAuth()
+  const router = useRouter()
+
+  const handleSignOut = async () => {
+    try {
+      await signOut()
+      router.push('/login') // Explicit redirect for better UX
+    } catch (error) {
+      console.error('Error signing out:', error)
+    }
+  }
 
   if (loading) {
     return <LoadingPage message="Loading settings..." />
@@ -19,45 +30,73 @@ export default function SettingsPage() {
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto px-6 py-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+      <div className="container mx-auto px-6 py-8" style={{ backgroundColor: 'var(--color-earth-beige)' }}>
+        <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif', color: 'var(--color-text-dark)' }}>
           Account Settings
         </h2>
         
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Settings Navigation */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="rounded-lg shadow-sm overflow-hidden" style={{ backgroundColor: 'var(--color-warm-cream)' }}>
               <nav className="p-2">
                 <ul className="space-y-1">
                   <li>
-                    <a href="#profile" className="flex items-center gap-3 px-4 py-3 rounded-lg bg-orange-50 text-orange-600">
+                    <a href="#profile" className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors" style={{ backgroundColor: 'var(--color-soft-orange)', color: 'var(--color-hoppn-orange)' }}>
                       <User className="w-5 h-5" />
                       <span className="font-medium">Profile</span>
                     </a>
                   </li>
                   <li>
-                    <a href="#security" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100">
+                    <a href="#security" className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors" style={{ color: 'var(--color-text-medium)' }} onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--color-soft-orange)';
+                      e.currentTarget.style.color = 'var(--color-text-dark)';
+                    }} onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = 'var(--color-text-medium)';
+                    }}>
                       <Lock className="w-5 h-5" />
                       <span className="font-medium">Security</span>
                     </a>
                   </li>
                   <li>
-                    <a href="#notifications" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100">
+                    <a href="#notifications" className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors" style={{ color: 'var(--color-text-medium)' }} onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--color-soft-orange)';
+                      e.currentTarget.style.color = 'var(--color-text-dark)';
+                    }} onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = 'var(--color-text-medium)';
+                    }}>
                       <Bell className="w-5 h-5" />
                       <span className="font-medium">Notifications</span>
                     </a>
                   </li>
                   <li>
-                    <a href="#billing" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100">
+                    <a href="#billing" className="flex items-center gap-3 px-4 py-3 rounded-lg transition-colors" style={{ color: 'var(--color-text-medium)' }} onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--color-soft-orange)';
+                      e.currentTarget.style.color = 'var(--color-text-dark)';
+                    }} onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = 'var(--color-text-medium)';
+                    }}>
                       <CreditCard className="w-5 h-5" />
                       <span className="font-medium">Billing</span>
                     </a>
                   </li>
                 </ul>
               </nav>
-              <div className="p-2 border-t border-gray-200">
-                <button className="flex items-center gap-3 px-4 py-3 rounded-lg w-full text-red-600 hover:bg-red-50">
+              <div className="p-2 border-t" style={{ borderColor: 'var(--color-border)' }}>
+                <button 
+                  onClick={handleSignOut}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg w-full transition-colors" 
+                  style={{ color: '#DC2626' }} 
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#FEF2F2';
+                  }} 
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                >
                   <LogOut className="w-5 h-5" />
                   <span className="font-medium">Sign Out</span>
                 </button>
@@ -68,47 +107,83 @@ export default function SettingsPage() {
           {/* Settings Content */}
           <div className="lg:col-span-3">
             {/* Profile Section */}
-            <div id="profile" className="bg-white rounded-lg shadow-sm p-6 mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Information</h3>
+            <div id="profile" className="rounded-lg shadow-sm p-6 mb-6" style={{ backgroundColor: 'var(--color-warm-cream)' }}>
+              <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--color-text-dark)' }}>Profile Information</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--color-text-dark)' }}>Full Name</label>
                   <input 
                     type="text" 
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition-colors"
+                    style={{
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text-dark)',
+                      backgroundColor: '#FFFFFF'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = 'var(--color-hoppn-orange)';
+                      e.target.style.boxShadow = '0 0 0 2px rgba(241, 80, 41, 0.2)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'var(--color-border)';
+                      e.target.style.boxShadow = 'none';
+                    }}
                     defaultValue={user?.vendorUser?.name || ''}
                     placeholder="Your full name"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--color-text-dark)' }}>Email Address</label>
                   <input 
                     type="email" 
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border rounded-md focus:outline-none"
+                    style={{
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text-medium)',
+                      backgroundColor: '#F9F9F9'
+                    }}
                     defaultValue={user?.vendorUser?.email || ''}
                     placeholder="Your email address"
                     disabled
                   />
-                  <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
+                  <p className="text-xs mt-1" style={{ color: 'var(--color-text-light)' }}>Email cannot be changed</p>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--color-text-dark)' }}>Phone Number</label>
                   <input 
                     type="tel" 
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition-colors"
+                    style={{
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text-dark)',
+                      backgroundColor: '#FFFFFF'
+                    }}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = 'var(--color-hoppn-orange)';
+                      e.target.style.boxShadow = '0 0 0 2px rgba(241, 80, 41, 0.2)';
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = 'var(--color-border)';
+                      e.target.style.boxShadow = 'none';
+                    }}
                     defaultValue={user?.vendorUser?.phone || ''}
                     placeholder="Your phone number"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                  <label className="block text-sm font-medium mb-1" style={{ color: 'var(--color-text-dark)' }}>Role</label>
                   <input 
                     type="text" 
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50"
+                    className="w-full px-3 py-2 border rounded-md"
+                    style={{
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text-medium)',
+                      backgroundColor: '#F9F9F9'
+                    }}
                     defaultValue="Restaurant Owner"
                     disabled
                   />
@@ -121,36 +196,75 @@ export default function SettingsPage() {
             </div>
             
             {/* Security Section */}
-            <div id="security" className="bg-white rounded-lg shadow-sm p-6 mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Security Settings</h3>
+            <div id="security" className="rounded-lg shadow-sm p-6 mb-6" style={{ backgroundColor: 'var(--color-warm-cream)' }}>
+              <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--color-text-dark)' }}>Security Settings</h3>
               
               <div className="space-y-6">
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-3">Change Password</h4>
+                  <h4 className="font-medium mb-3" style={{ color: 'var(--color-text-dark)' }}>Change Password</h4>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                      <label className="block text-sm font-medium mb-1" style={{ color: 'var(--color-text-dark)' }}>Current Password</label>
                       <input 
                         type="password" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition-colors"
+                        style={{
+                          borderColor: 'var(--color-border)',
+                          color: 'var(--color-text-dark)',
+                          backgroundColor: '#FFFFFF'
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.borderColor = 'var(--color-hoppn-orange)';
+                          e.target.style.boxShadow = '0 0 0 2px rgba(241, 80, 41, 0.2)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.borderColor = 'var(--color-border)';
+                          e.target.style.boxShadow = 'none';
+                        }}
                         placeholder="Enter current password"
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                      <label className="block text-sm font-medium mb-1" style={{ color: 'var(--color-text-dark)' }}>New Password</label>
                       <input 
                         type="password" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition-colors"
+                        style={{
+                          borderColor: 'var(--color-border)',
+                          color: 'var(--color-text-dark)',
+                          backgroundColor: '#FFFFFF'
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.borderColor = 'var(--color-hoppn-orange)';
+                          e.target.style.boxShadow = '0 0 0 2px rgba(241, 80, 41, 0.2)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.borderColor = 'var(--color-border)';
+                          e.target.style.boxShadow = 'none';
+                        }}
                         placeholder="Enter new password"
                       />
                     </div>
                     
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                      <label className="block text-sm font-medium mb-1" style={{ color: 'var(--color-text-dark)' }}>Confirm New Password</label>
                       <input 
                         type="password" 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:border-transparent transition-colors"
+                        style={{
+                          borderColor: 'var(--color-border)',
+                          color: 'var(--color-text-dark)',
+                          backgroundColor: '#FFFFFF'
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.borderColor = 'var(--color-hoppn-orange)';
+                          e.target.style.boxShadow = '0 0 0 2px rgba(241, 80, 41, 0.2)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.borderColor = 'var(--color-border)';
+                          e.target.style.boxShadow = 'none';
+                        }}
                         placeholder="Confirm new password"
                       />
                     </div>
@@ -161,9 +275,9 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 
-                <div className="pt-6 border-t border-gray-200">
-                  <h4 className="font-medium text-gray-900 mb-3">Two-Factor Authentication</h4>
-                  <p className="text-sm text-gray-600 mb-3">
+                <div className="pt-6 border-t" style={{ borderColor: 'var(--color-border)' }}>
+                  <h4 className="font-medium mb-3" style={{ color: 'var(--color-text-dark)' }}>Two-Factor Authentication</h4>
+                  <p className="text-sm mb-3" style={{ color: 'var(--color-text-medium)' }}>
                     Add an extra layer of security to your account by enabling two-factor authentication.
                   </p>
                   <Button variant="hoppnOutline">Enable 2FA</Button>
@@ -172,58 +286,58 @@ export default function SettingsPage() {
             </div>
             
             {/* Notifications Section */}
-            <div id="notifications" className="bg-white rounded-lg shadow-sm p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Notification Preferences</h3>
+            <div id="notifications" className="rounded-lg shadow-sm p-6" style={{ backgroundColor: 'var(--color-warm-cream)' }}>
+              <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--color-text-dark)' }}>Notification Preferences</h3>
               
               <div className="space-y-4">
-                <div className="flex items-center justify-between py-3 border-b border-gray-200">
+                <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: 'var(--color-border)' }}>
                   <div>
-                    <h4 className="font-medium text-gray-900">New Orders</h4>
-                    <p className="text-sm text-gray-600">Get notified when you receive a new order</p>
+                    <h4 className="font-medium" style={{ color: 'var(--color-text-dark)' }}>New Orders</h4>
+                    <p className="text-sm" style={{ color: 'var(--color-text-medium)' }}>Get notified when you receive a new order</p>
                   </div>
                   <div className="flex items-center">
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" className="sr-only peer" defaultChecked />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all" style={{ '--peer-checked-bg': '#F15029', 'background': 'var(--peer-checked-bg, #E5E7EB)' }}></div>
                     </label>
                   </div>
                 </div>
                 
-                <div className="flex items-center justify-between py-3 border-b border-gray-200">
+                <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: 'var(--color-border)' }}>
                   <div>
-                    <h4 className="font-medium text-gray-900">Order Updates</h4>
-                    <p className="text-sm text-gray-600">Get notified about order status changes</p>
+                    <h4 className="font-medium" style={{ color: 'var(--color-text-dark)' }}>Order Updates</h4>
+                    <p className="text-sm" style={{ color: 'var(--color-text-medium)' }}>Get notified about order status changes</p>
                   </div>
                   <div className="flex items-center">
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" className="sr-only peer" defaultChecked />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all" style={{ '--peer-checked-bg': '#F15029', 'background': 'var(--peer-checked-bg, #E5E7EB)' }}></div>
                     </label>
                   </div>
                 </div>
                 
-                <div className="flex items-center justify-between py-3 border-b border-gray-200">
+                <div className="flex items-center justify-between py-3 border-b" style={{ borderColor: 'var(--color-border)' }}>
                   <div>
-                    <h4 className="font-medium text-gray-900">Customer Messages</h4>
-                    <p className="text-sm text-gray-600">Get notified when you receive a new message</p>
+                    <h4 className="font-medium" style={{ color: 'var(--color-text-dark)' }}>Customer Messages</h4>
+                    <p className="text-sm" style={{ color: 'var(--color-text-medium)' }}>Get notified when you receive a new message</p>
                   </div>
                   <div className="flex items-center">
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" className="sr-only peer" defaultChecked />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all" style={{ '--peer-checked-bg': '#F15029', 'background': 'var(--peer-checked-bg, #E5E7EB)' }}></div>
                     </label>
                   </div>
                 </div>
                 
                 <div className="flex items-center justify-between py-3">
                   <div>
-                    <h4 className="font-medium text-gray-900">Marketing Updates</h4>
-                    <p className="text-sm text-gray-600">Receive news and promotional offers from Hoppn</p>
+                    <h4 className="font-medium" style={{ color: 'var(--color-text-dark)' }}>Marketing Updates</h4>
+                    <p className="text-sm" style={{ color: 'var(--color-text-medium)' }}>Receive news and promotional offers from Hoppn</p>
                   </div>
                   <div className="flex items-center">
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" className="sr-only peer" />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all" style={{ '--peer-checked-bg': '#F15029', 'background': 'var(--peer-checked-bg, #E5E7EB)' }}></div>
                     </label>
                   </div>
                 </div>

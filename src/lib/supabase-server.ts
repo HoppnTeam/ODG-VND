@@ -1,3 +1,21 @@
+// ⚠️ CRITICAL: DO NOT MODIFY WITHOUT CODE OWNER APPROVAL
+// Server-side Supabase client with proper cookie handling for Next.js App Router
+// This file is essential for API route authentication and server components
+// 
+// IMPORTANT: This file handles authentication for:
+// - API routes (using requireAuth helper)
+// - Server components
+// - Middleware authentication checks
+// 
+// DO NOT change the cookie handling logic or client creation methods
+// Changes can break authentication across all server-side operations
+// 
+// If you need to modify this file:
+// 1. Contact the code owner first
+// 2. Test all API routes and server components
+// 3. Verify cookie handling in different scenarios
+// 4. Update the AUTHENTICATION_FLOW.md documentation
+
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { Database } from '@/types/supabase'

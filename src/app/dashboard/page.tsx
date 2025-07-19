@@ -99,15 +99,15 @@ export default function DashboardPage() {
   // Full dashboard for approved vendors with restaurant setup
   return (
     <DashboardLayout>
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-6 py-8" style={{ backgroundColor: 'var(--color-earth-beige)' }}>
         {/* Welcome Card */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+        <div className="rounded-lg shadow-sm p-6 mb-6" style={{ backgroundColor: 'var(--color-warm-cream)' }}>
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: 'Montserrat, sans-serif', color: 'var(--color-text-dark)' }}>
                 Welcome to Your Hoppn Dashboard!
               </h2>
-              <p className="text-gray-600">
+              <p style={{ color: 'var(--color-text-medium)' }}>
                 Your restaurant is now live on the Hoppn platform. Start managing your orders and growing your business.
               </p>
             </div>
@@ -118,77 +118,77 @@ export default function DashboardPage() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Today's Orders */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="rounded-lg shadow-sm p-6" style={{ backgroundColor: 'var(--color-soft-orange)' }}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Today's Orders</h3>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFF7ED' }}>
-                <span className="text-sm font-bold" style={{ color: '#F15029' }}>0</span>
+              <h3 className="text-lg font-semibold" style={{ color: 'var(--color-text-dark)' }}>Today's Orders</h3>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-hoppn-orange)' }}>
+                <ShoppingBag className="w-4 h-4" style={{ color: 'var(--color-text-on-colored)' }} />
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <div className="text-3xl font-bold mb-2" style={{ fontFamily: 'Montserrat, sans-serif', color: 'var(--color-text-dark)' }}>
               0
             </div>
-            <p className="text-sm text-gray-600">No orders yet today</p>
+            <p className="text-sm" style={{ color: 'var(--color-text-medium)' }}>No orders yet today</p>
           </div>
           
           {/* Revenue */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="rounded-lg shadow-sm p-6" style={{ backgroundColor: 'var(--color-gentle-blue)' }}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Revenue</h3>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#EFF6FF' }}>
-                <span className="text-sm font-bold" style={{ color: '#4C8BF5' }}>$</span>
+              <h3 className="text-lg font-semibold" style={{ color: 'var(--color-text-dark)' }}>Revenue</h3>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-hoppn-blue)' }}>
+                <DollarSign className="w-4 h-4" style={{ color: 'var(--color-text-on-colored)' }} />
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <div className="text-3xl font-bold mb-2" style={{ fontFamily: 'Montserrat, sans-serif', color: 'var(--color-text-dark)' }}>
               $0.00
             </div>
-            <p className="text-sm text-gray-600">Ready to start earning</p>
+            <p className="text-sm" style={{ color: 'var(--color-text-medium)' }}>Ready to start earning</p>
           </div>
           
           {/* Menu Items */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="rounded-lg shadow-sm p-6" style={{ backgroundColor: 'var(--color-earth-green)' }}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Menu Items</h3>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#ECFDF5' }}>
-                <span className="text-sm font-bold" style={{ color: '#10B981' }}>0</span>
+              <h3 className="text-lg font-semibold" style={{ color: 'var(--color-text-dark)' }}>Menu Items</h3>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-hoppn-green)' }}>
+                <UtensilsCrossed className="w-4 h-4" style={{ color: 'var(--color-text-on-colored)' }} />
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <div className="text-3xl font-bold mb-2" style={{ fontFamily: 'Montserrat, sans-serif', color: 'var(--color-text-dark)' }}>
               0
             </div>
-            <p className="text-sm text-gray-600">Add your first dish</p>
+            <p className="text-sm" style={{ color: 'var(--color-text-medium)' }}>Add your first dish</p>
           </div>
           
           {/* Customer Ratings */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="rounded-lg shadow-sm p-6" style={{ backgroundColor: 'var(--color-sunset-gold)' }}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Customer Ratings</h3>
-              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFF7ED' }}>
-                <span className="text-sm font-bold" style={{ color: '#F59E0B' }}>★</span>
+              <h3 className="text-lg font-semibold" style={{ color: 'var(--color-text-dark)' }}>Customer Ratings</h3>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-hoppn-yellow)' }}>
+                <Star className="w-4 h-4" style={{ color: 'var(--color-text-on-colored)' }} />
               </div>
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <div className="text-3xl font-bold mb-2" style={{ fontFamily: 'Montserrat, sans-serif', color: 'var(--color-text-dark)' }}>
               N/A
             </div>
-            <p className="text-sm text-gray-600">No ratings yet</p>
+            <p className="text-sm" style={{ color: 'var(--color-text-medium)' }}>No ratings yet</p>
           </div>
         </div>
         
         {/* Next Steps Section */}
-        <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+        <h3 className="text-xl font-bold mb-4" style={{ fontFamily: 'Montserrat, sans-serif', color: 'var(--color-text-dark)' }}>
           Next Steps to Get Started
         </h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Add Menu Items */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="rounded-lg shadow-sm p-6" style={{ backgroundColor: 'var(--color-warm-cream)' }}>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
-                <Plus className="w-5 h-5 text-orange-600" />
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-soft-orange)' }}>
+                <Plus className="w-5 h-5" style={{ color: 'var(--color-hoppn-orange)' }} />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">Add Menu Items</h3>
-                <p className="text-sm text-gray-600">Start building your menu</p>
+                <h3 className="font-semibold" style={{ color: 'var(--color-text-dark)' }}>Add Menu Items</h3>
+                <p className="text-sm" style={{ color: 'var(--color-text-medium)' }}>Start building your menu</p>
               </div>
             </div>
             <Button 
@@ -201,16 +201,19 @@ export default function DashboardPage() {
           </div>
           
           {/* Upload Photos */}
-          <div className="bg-white rounded-lg shadow-sm p-6 flex gap-4">
-            <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-              <ImageIcon className="w-5 h-5 text-blue-600" />
+          <div className="rounded-lg shadow-sm p-6 flex gap-4" style={{ backgroundColor: 'var(--color-warm-cream)' }}>
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'var(--color-gentle-blue)' }}>
+              <ImageIcon className="w-5 h-5" style={{ color: 'var(--color-hoppn-blue)' }} />
             </div>
             <div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-1">Upload Photos</h4>
-              <p className="text-sm text-gray-600 mb-3">Add high-quality photos of your restaurant and dishes</p>
+              <h4 className="text-lg font-semibold mb-1" style={{ color: 'var(--color-text-dark)' }}>Upload Photos</h4>
+              <p className="text-sm mb-3" style={{ color: 'var(--color-text-medium)' }}>Add high-quality photos of your restaurant and dishes</p>
               <button 
                 onClick={() => router.push('/dashboard/restaurant?tab=photos')}
-                className="text-sm font-medium text-orange-600 hover:text-orange-700"
+                className="text-sm font-medium transition-colors"
+                style={{ color: 'var(--color-hoppn-orange)' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#D13D1A'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-hoppn-orange)'}
               >
                 Upload Photos →
               </button>
@@ -218,16 +221,19 @@ export default function DashboardPage() {
           </div>
           
           {/* Set Up Payments */}
-          <div className="bg-white rounded-lg shadow-sm p-6 flex gap-4">
-            <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
-              <CreditCard className="w-5 h-5 text-green-600" />
+          <div className="rounded-lg shadow-sm p-6 flex gap-4" style={{ backgroundColor: 'var(--color-warm-cream)' }}>
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'var(--color-earth-green)' }}>
+              <CreditCard className="w-5 h-5" style={{ color: 'var(--color-hoppn-green)' }} />
             </div>
             <div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-1">Set Up Payments</h4>
-              <p className="text-sm text-gray-600 mb-3">Connect your bank account to receive payouts from orders</p>
+              <h4 className="text-lg font-semibold mb-1" style={{ color: 'var(--color-text-dark)' }}>Set Up Payments</h4>
+              <p className="text-sm mb-3" style={{ color: 'var(--color-text-medium)' }}>Connect your bank account to receive payouts from orders</p>
               <button 
                 onClick={() => router.push('/dashboard/payments')}
-                className="text-sm font-medium text-orange-600 hover:text-orange-700"
+                className="text-sm font-medium transition-colors"
+                style={{ color: 'var(--color-hoppn-orange)' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#D13D1A'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-hoppn-orange)'}
               >
                 Setup Payments →
               </button>
@@ -235,16 +241,19 @@ export default function DashboardPage() {
           </div>
           
           {/* Set Hours */}
-          <div className="bg-white rounded-lg shadow-sm p-6 flex gap-4">
-            <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
-              <Clock className="w-5 h-5 text-purple-600" />
+          <div className="rounded-lg shadow-sm p-6 flex gap-4" style={{ backgroundColor: 'var(--color-warm-cream)' }}>
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'var(--color-sunset-gold)' }}>
+              <Clock className="w-5 h-5" style={{ color: 'var(--color-hoppn-yellow)' }} />
             </div>
             <div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-1">Set Hours</h4>
-              <p className="text-sm text-gray-600 mb-3">Configure your restaurant hours and availability</p>
+              <h4 className="text-lg font-semibold mb-1" style={{ color: 'var(--color-text-dark)' }}>Set Hours</h4>
+              <p className="text-sm mb-3" style={{ color: 'var(--color-text-medium)' }}>Configure your restaurant hours and availability</p>
               <button 
                 onClick={() => router.push('/dashboard/restaurant?tab=hours')}
-                className="text-sm font-medium text-orange-600 hover:text-orange-700"
+                className="text-sm font-medium transition-colors"
+                style={{ color: 'var(--color-hoppn-orange)' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#D13D1A'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-hoppn-orange)'}
               >
                 Set Hours →
               </button>
@@ -256,14 +265,17 @@ export default function DashboardPage() {
       {/* Dish Form Modal */}
       {showDishForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+          <div className="rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto" style={{ backgroundColor: 'var(--color-warm-cream)' }}>
+            <div className="sticky top-0 border-b px-6 py-4 flex items-center justify-between" style={{ backgroundColor: 'var(--color-warm-cream)', borderColor: 'var(--color-border)' }}>
+              <h2 className="text-xl font-semibold" style={{ fontFamily: 'Montserrat, sans-serif', color: 'var(--color-text-dark)' }}>
                 Add New Dish
               </h2>
               <button
                 onClick={() => setShowDishForm(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="transition-colors"
+                style={{ color: 'var(--color-text-medium)' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-text-dark)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text-medium)'}
               >
                 <X className="w-6 h-6" />
               </button>

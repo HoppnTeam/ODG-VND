@@ -294,14 +294,15 @@ export default function ReviewsPage() {
         {[1, 2, 3, 4, 5].map((star) => (
           <svg 
             key={star} 
-            className={`w-5 h-5 ${star <= rating ? 'text-yellow-400' : 'text-gray-300'}`} 
+            className="w-5 h-5"
+            style={{ color: star <= rating ? 'var(--color-hoppn-yellow)' : '#D1D5DB' }} 
             fill="currentColor" 
             viewBox="0 0 20 20"
           >
             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
           </svg>
         ))}
-        <span className="ml-2 text-gray-600">{rating.toFixed(1)}</span>
+        <span className="ml-2" style={{ color: 'var(--color-text-medium)' }}>{rating.toFixed(1)}</span>
       </div>
     )
   }
@@ -309,9 +310,9 @@ export default function ReviewsPage() {
   if (!isVendor || !hasRestaurant) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
-        <h1 className="text-2xl font-bold mb-4">Access Denied</h1>
-        <p>You need to be logged in as a vendor with a restaurant to view this page.</p>
-        <div className="mt-4 text-sm text-gray-600">
+        <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--color-text-dark)' }}>Access Denied</h1>
+        <p style={{ color: 'var(--color-text-medium)' }}>You need to be logged in as a vendor with a restaurant to view this page.</p>
+        <div className="mt-4 text-sm" style={{ color: 'var(--color-text-light)' }}>
           <p>Debug info:</p>
           <p>isVendor: {isVendor ? 'true' : 'false'}</p>
           <p>hasRestaurant: {hasRestaurant ? 'true' : 'false'}</p>
@@ -323,29 +324,30 @@ export default function ReviewsPage() {
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto px-6 py-8">
-        <h1 className="text-3xl font-bold mb-6 text-slate-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>Customer Reviews</h1>
+      <div className="container mx-auto px-6 py-8" style={{ backgroundColor: 'var(--color-earth-beige)' }}>
+        <h1 className="text-3xl font-bold mb-6" style={{ fontFamily: 'Montserrat, sans-serif', color: 'var(--color-text-dark)' }}>Customer Reviews</h1>
       
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card className="p-6 bg-white shadow-sm border border-slate-200">
-          <h3 className="text-lg font-semibold mb-2 text-slate-900">Average Rating</h3>
+        <Card className="p-6 shadow-sm border" style={{ backgroundColor: 'var(--color-warm-cream)', borderColor: 'var(--color-border)' }}>
+          <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--color-text-dark)' }}>Average Rating</h3>
           <div className="flex items-center">
             {renderStars(stats.averageRating)}
             <span className="ml-2 text-2xl font-bold">{stats.averageRating.toFixed(1)}</span>
           </div>
-          <p className="text-sm text-gray-500 mt-2">Based on {stats.totalReviews} reviews</p>
+          <p className="text-sm mt-2" style={{ color: 'var(--color-text-light)' }}>Based on {stats.totalReviews} reviews</p>
         </Card>
         
-        <Card className="p-6 bg-white shadow-sm border border-slate-200">
-          <h3 className="text-lg font-semibold mb-2 text-slate-900">Rating Distribution</h3>
+        <Card className="p-6 shadow-sm border" style={{ backgroundColor: 'var(--color-warm-cream)', borderColor: 'var(--color-border)' }}>
+          <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--color-text-dark)' }}>Rating Distribution</h3>
           <div className="space-y-1">
             {[5, 4, 3, 2, 1].map(rating => (
               <div key={rating} className="flex items-center">
                 <span className="w-3">{rating}</span>
-                <div className="w-full bg-gray-200 rounded-full h-2 mx-2">
+                <div className="w-full rounded-full h-2 mx-2" style={{ backgroundColor: '#E5E7EB' }}>
                   <div 
-                    className="bg-[#F15029] h-2 rounded-full" 
+                    className="h-2 rounded-full"
+                    style={{ backgroundColor: 'var(--color-hoppn-orange)' }} 
                     style={{ 
                       width: `${stats.totalReviews > 0 
                         ? (stats.ratingDistribution[rating as 1|2|3|4|5] / stats.totalReviews) * 100 
@@ -353,7 +355,7 @@ export default function ReviewsPage() {
                     }}
                   ></div>
                 </div>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs" style={{ color: 'var(--color-text-light)' }}>
                   {stats.ratingDistribution[rating as 1|2|3|4|5]}
                 </span>
               </div>
@@ -361,31 +363,31 @@ export default function ReviewsPage() {
           </div>
         </Card>
         
-        <Card className="p-6 bg-white shadow-sm border border-slate-200">
-          <h3 className="text-lg font-semibold mb-2 text-slate-900">Specialty Ratings</h3>
+        <Card className="p-6 shadow-sm border" style={{ backgroundColor: 'var(--color-warm-cream)', borderColor: 'var(--color-border)' }}>
+          <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--color-text-dark)' }}>Specialty Ratings</h3>
           <div className="space-y-2">
             <div>
-              <span className="text-sm text-gray-600">Spice Level:</span>
-              <span className="ml-2 font-medium">{stats.averageSpiceLevel.toFixed(1)}</span>
+              <span className="text-sm" style={{ color: 'var(--color-text-medium)' }}>Spice Level:</span>
+              <span className="ml-2 font-medium" style={{ color: 'var(--color-text-dark)' }}>{stats.averageSpiceLevel.toFixed(1)}</span>
             </div>
             <div>
-              <span className="text-sm text-gray-600">Authenticity:</span>
-              <span className="ml-2 font-medium">{stats.averageAuthenticity.toFixed(1)}</span>
+              <span className="text-sm" style={{ color: 'var(--color-text-medium)' }}>Authenticity:</span>
+              <span className="ml-2 font-medium" style={{ color: 'var(--color-text-dark)' }}>{stats.averageAuthenticity.toFixed(1)}</span>
             </div>
             <div>
-              <span className="text-sm text-gray-600">Cultural Experience:</span>
-              <span className="ml-2 font-medium">{stats.averageCulturalExperience.toFixed(1)}</span>
+              <span className="text-sm" style={{ color: 'var(--color-text-medium)' }}>Cultural Experience:</span>
+              <span className="ml-2 font-medium" style={{ color: 'var(--color-text-dark)' }}>{stats.averageCulturalExperience.toFixed(1)}</span>
             </div>
             <div>
-              <span className="text-sm text-gray-600">Overall Experience:</span>
-              <span className="ml-2 font-medium">{stats.averageOverallExperience.toFixed(1)}</span>
+              <span className="text-sm" style={{ color: 'var(--color-text-medium)' }}>Overall Experience:</span>
+              <span className="ml-2 font-medium" style={{ color: 'var(--color-text-dark)' }}>{stats.averageOverallExperience.toFixed(1)}</span>
             </div>
           </div>
         </Card>
         
-        <Card className="p-6 bg-white shadow-sm border border-slate-200">
-          <h3 className="text-lg font-semibold mb-2 text-slate-900">Review Insights</h3>
-          <p className="text-sm text-gray-600">
+        <Card className="p-6 shadow-sm border" style={{ backgroundColor: 'var(--color-warm-cream)', borderColor: 'var(--color-border)' }}>
+          <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--color-text-dark)' }}>Review Insights</h3>
+          <p className="text-sm" style={{ color: 'var(--color-text-medium)' }}>
             {stats.totalReviews === 0 
               ? "No reviews yet" 
               : `${Math.round((stats.ratingDistribution[4] + stats.ratingDistribution[5]) / stats.totalReviews * 100)}% of customers rated 4 stars or higher`
@@ -396,14 +398,27 @@ export default function ReviewsPage() {
       </div>
       
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mb-6">
+      <div className="rounded-lg shadow-sm border p-6 mb-6" style={{ backgroundColor: 'var(--color-soft-orange)', borderColor: 'var(--color-border)' }}>
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1">
             <Input
               placeholder="Search reviews..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full border-slate-300 focus:ring-[#F15029] focus:border-[#F15029]"
+              className="w-full"
+              style={{
+                borderColor: 'var(--color-border)',
+                color: 'var(--color-text-dark)',
+                backgroundColor: '#FFFFFF'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'var(--color-hoppn-orange)';
+                e.target.style.boxShadow = '0 0 0 2px rgba(241, 80, 41, 0.2)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'var(--color-border)';
+                e.target.style.boxShadow = 'none';
+              }}
             />
           </div>
         
@@ -464,24 +479,28 @@ export default function ReviewsPage() {
         </div>
       ) : filteredReviews.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-xl text-gray-500">No reviews found</p>
+          <p className="text-xl" style={{ color: 'var(--color-text-medium)' }}>No reviews found</p>
           {reviews.length > 0 && (
-            <p className="text-gray-400 mt-2">Try adjusting your filters</p>
+            <p className="mt-2" style={{ color: 'var(--color-text-light)' }}>Try adjusting your filters</p>
           )}
         </div>
       ) : (
         <div className="space-y-6">
           {filteredReviews.map(review => (
-            <Card key={review.id} className={`p-6 bg-white shadow-sm border border-slate-200 ${review.hidden_by_vendor ? 'bg-gray-50' : ''}`}>
+            <Card key={review.id} className="p-6 shadow-sm border" style={{ 
+              backgroundColor: review.hidden_by_vendor ? 'var(--color-soft-orange)' : '#FFFFFF', 
+              borderColor: 'var(--color-border)',
+              opacity: review.hidden_by_vendor ? 0.8 : 1
+            }}>
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <div className="flex items-center mb-2">
                     {renderStars(review.rating)}
-                    <span className="ml-4 text-gray-500 text-sm">
+                    <span className="ml-4 text-sm" style={{ color: 'var(--color-text-light)' }}>
                       {formatDate(review.created_at)}
                     </span>
                   </div>
-                  <h3 className="font-semibold">
+                  <h3 className="font-semibold" style={{ color: 'var(--color-text-dark)' }}>
                     {review.user?.name || 'Anonymous Customer'}
                   </h3>
                   {review.dish && (
@@ -491,7 +510,7 @@ export default function ReviewsPage() {
                   )}
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm" style={{ color: 'var(--color-text-light)' }}>
                     Order #{review.order?.order_number?.substring(0, 8) || 'N/A'}
                   </p>
                 </div>
@@ -499,7 +518,7 @@ export default function ReviewsPage() {
               
               {review.comment && (
                 <div className="mb-4">
-                  <p className="text-gray-700">{review.comment}</p>
+                  <p style={{ color: 'var(--color-text-medium)' }}>{review.comment}</p>
                 </div>
               )}
               
@@ -507,32 +526,32 @@ export default function ReviewsPage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
                 {review.spice_level_rating !== null && (
                   <div className="text-sm">
-                    <span className="text-gray-500">Spice Level:</span>
-                    <span className="ml-1 font-medium">{review.spice_level_rating}/5</span>
+                    <span style={{ color: 'var(--color-text-light)' }}>Spice Level:</span>
+                    <span className="ml-1 font-medium" style={{ color: 'var(--color-text-dark)' }}>{review.spice_level_rating}/5</span>
                   </div>
                 )}
                 {review.authenticity_rating !== null && (
                   <div className="text-sm">
-                    <span className="text-gray-500">Authenticity:</span>
-                    <span className="ml-1 font-medium">{review.authenticity_rating}/5</span>
+                    <span style={{ color: 'var(--color-text-light)' }}>Authenticity:</span>
+                    <span className="ml-1 font-medium" style={{ color: 'var(--color-text-dark)' }}>{review.authenticity_rating}/5</span>
                   </div>
                 )}
                 {review.cultural_experience_rating !== null && (
                   <div className="text-sm">
-                    <span className="text-gray-500">Cultural:</span>
-                    <span className="ml-1 font-medium">{review.cultural_experience_rating}/5</span>
+                    <span style={{ color: 'var(--color-text-light)' }}>Cultural:</span>
+                    <span className="ml-1 font-medium" style={{ color: 'var(--color-text-dark)' }}>{review.cultural_experience_rating}/5</span>
                   </div>
                 )}
                 {review.overall_experience !== null && (
                   <div className="text-sm">
-                    <span className="text-gray-500">Overall:</span>
-                    <span className="ml-1 font-medium">{review.overall_experience}/5</span>
+                    <span style={{ color: 'var(--color-text-light)' }}>Overall:</span>
+                    <span className="ml-1 font-medium" style={{ color: 'var(--color-text-dark)' }}>{review.overall_experience}/5</span>
                   </div>
                 )}
               </div>
               
               {/* Review Management Actions */}
-              <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="mt-4 pt-4 border-t" style={{ borderColor: 'var(--color-border)' }}>
                 <div className="flex gap-2">
                   {review.hidden_by_vendor ? (
                     <Button 
@@ -556,7 +575,9 @@ export default function ReviewsPage() {
                   <Button 
                     variant="outline" 
                     size="sm"
-                    className="text-red-500 hover:text-red-700"
+                    style={{ color: '#DC2626' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#991B1B'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#DC2626'}
                     disabled={actionLoading === review.id}
                     onClick={() => handleDeleteReview(review.id)}
                   >

@@ -1,5 +1,24 @@
 'use client'
 
+// ⚠️ CRITICAL: DO NOT MODIFY WITHOUT CODE OWNER APPROVAL
+// Central authentication hook used throughout the entire application
+// This hook manages user state, vendor verification, and restaurant data
+// 
+// IMPORTANT: This hook is used by:
+// - Dashboard layout for route protection
+// - All dashboard pages for user verification
+// - Components that need user/vendor/restaurant data
+// 
+// DO NOT modify the authentication logic or state management
+// Changes can break login/logout functionality across the app
+// 
+// If you need to modify this file:
+// 1. Contact the code owner first
+// 2. Test all authentication flows (login, logout, registration)
+// 3. Verify vendor and restaurant data loading
+// 4. Test protected route access
+// 5. Update the AUTHENTICATION_FLOW.md documentation
+
 import { useState, useEffect } from 'react'
 import { User } from '@supabase/supabase-js'
 import { supabase, authHelpers, dbHelpers } from '@/lib/supabase'

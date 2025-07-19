@@ -123,8 +123,8 @@ export default function RestaurantHours({
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Clock className="w-6 h-6 text-orange-600" />
-        <h3 className="text-lg font-semibold text-gray-900">Restaurant Hours</h3>
+        <Clock className="w-6 h-6" style={{ color: 'var(--color-hoppn-orange)' }} />
+        <h3 className="text-lg font-semibold" style={{ color: 'var(--color-text-dark)' }}>Restaurant Hours</h3>
       </div>
       
       {error && (
@@ -140,7 +140,7 @@ export default function RestaurantHours({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="w-20">
-                  <span className="font-medium text-gray-900">{dayHour.day}</span>
+                  <span className="font-medium" style={{ color: 'var(--color-text-dark)' }}>{dayHour.day}</span>
                 </div>
                 
                 <label className="flex items-center">
@@ -148,9 +148,15 @@ export default function RestaurantHours({
                     type="checkbox"
                     checked={dayHour.isOpen}
                     onChange={() => handleDayToggle(index)}
-                    className="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
+                    className="rounded focus:ring-2 transition-colors"
+                    style={{
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-hoppn-orange)',
+                      '--focus-ring-color': 'rgba(241, 80, 41, 0.3)'
+                    }}
+                    onFocus={(e) => e.target.style.boxShadow = '0 0 0 2px rgba(241, 80, 41, 0.3)'}
                   />
-                  <span className="ml-2 text-sm text-gray-700">Open</span>
+                  <span className="ml-2 text-sm" style={{ color: 'var(--color-text-dark)' }}>Open</span>
                 </label>
               </div>
               
@@ -161,27 +167,56 @@ export default function RestaurantHours({
                       type="time"
                       value={dayHour.openTime}
                       onChange={(e) => handleTimeChange(index, 'openTime', e.target.value)}
-                      className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="px-3 py-1 border rounded-md text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-colors"
+                      style={{
+                        borderColor: 'var(--color-border)',
+                        color: 'var(--color-text-dark)',
+                        backgroundColor: '#FFFFFF'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = 'var(--color-hoppn-orange)';
+                        e.target.style.boxShadow = '0 0 0 2px rgba(241, 80, 41, 0.2)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = 'var(--color-border)';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
-                    <span className="text-gray-500">to</span>
+                    <span style={{ color: 'var(--color-text-dark)' }}>to</span>
                     <input
                       type="time"
                       value={dayHour.closeTime}
                       onChange={(e) => handleTimeChange(index, 'closeTime', e.target.value)}
-                      className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                      className="px-3 py-1 border rounded-md text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-colors"
+                      style={{
+                        borderColor: 'var(--color-border)',
+                        color: 'var(--color-text-dark)',
+                        backgroundColor: '#FFFFFF'
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = 'var(--color-hoppn-orange)';
+                        e.target.style.boxShadow = '0 0 0 2px rgba(241, 80, 41, 0.2)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = 'var(--color-border)';
+                        e.target.style.boxShadow = 'none';
+                      }}
                     />
                   </div>
                   
                   <button
                     type="button"
                     onClick={() => copyToAll(index)}
-                    className="text-xs text-orange-600 hover:text-orange-700 font-medium"
+                    className="text-xs font-medium transition-colors"
+                    style={{ color: 'var(--color-hoppn-orange)' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#D13D1A'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-hoppn-orange)'}
                   >
                     Copy to all
                   </button>
                 </div>
               ) : (
-                <span className="text-gray-500 text-sm">Closed</span>
+                <span className="text-sm" style={{ color: 'var(--color-text-medium)' }}>Closed</span>
               )}
             </div>
           </div>
@@ -190,7 +225,7 @@ export default function RestaurantHours({
       
       {/* Quick Presets */}
       <div className="space-y-3">
-        <h4 className="font-medium text-gray-900">Quick Presets</h4>
+        <h4 className="font-medium" style={{ color: 'var(--color-text-dark)' }}>Quick Presets</h4>
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
@@ -203,7 +238,7 @@ export default function RestaurantHours({
               }))
               setHours(newHours)
             }}
-            className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200"
+            className="px-3 py-1 text-sm rounded-md transition-colors" style={{ backgroundColor: 'var(--color-soft-orange)', color: 'var(--color-text-dark)' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F8D4C9'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--color-soft-orange)'}
           >
             9 AM - 9 PM (All Days)
           </button>
@@ -219,7 +254,7 @@ export default function RestaurantHours({
               }))
               setHours(newHours)
             }}
-            className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200"
+            className="px-3 py-1 text-sm rounded-md transition-colors" style={{ backgroundColor: 'var(--color-soft-orange)', color: 'var(--color-text-dark)' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F8D4C9'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--color-soft-orange)'}
           >
             Weekdays Only (8 AM - 6 PM)
           </button>
@@ -235,7 +270,7 @@ export default function RestaurantHours({
               }))
               setHours(newHours)
             }}
-            className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200"
+            className="px-3 py-1 text-sm rounded-md transition-colors" style={{ backgroundColor: 'var(--color-soft-orange)', color: 'var(--color-text-dark)' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F8D4C9'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--color-soft-orange)'}
           >
             Restaurant Hours
           </button>
@@ -244,8 +279,8 @@ export default function RestaurantHours({
       
       {/* Current Status */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h4 className="font-medium text-blue-900 mb-2">Current Status</h4>
-        <p className="text-sm text-blue-800">
+        <h4 className="font-medium mb-2" style={{ color: 'var(--color-text-dark)' }}>Current Status</h4>
+        <p className="text-sm" style={{ color: 'var(--color-text-medium)' }}>
           Your restaurant hours will be displayed to customers when they browse your menu. 
           Make sure to keep them updated, especially during holidays or special events.
         </p>

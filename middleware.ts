@@ -1,3 +1,23 @@
+// ⚠️ CRITICAL: DO NOT MODIFY WITHOUT CODE OWNER APPROVAL
+// Route protection middleware for authentication
+// This file protects dashboard routes and API endpoints from unauthorized access
+// 
+// IMPORTANT: This middleware:
+// - Protects /dashboard/* routes
+// - Protects /api/stripe/* routes
+// - Handles session validation
+// - Manages cookie-based authentication
+// 
+// DO NOT modify the route matching logic or session handling
+// Changes can expose protected routes or block legitimate access
+// 
+// If you need to modify this file:
+// 1. Contact the code owner first
+// 2. Test all protected routes
+// 3. Verify session handling
+// 4. Test authentication redirects
+// 5. Update the AUTHENTICATION_FLOW.md documentation
+
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 

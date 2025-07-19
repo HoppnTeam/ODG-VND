@@ -1,7 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand Colors */
+  /* Primary Hoppn Colors - Updated for better accessibility */
+  --color-hoppn-orange: #D13D1A;        /* Darker for better contrast (was #F15029) */
+  --color-hoppn-blue: #2563EB;          /* Darker for better contrast (was #4C8BF5) */
+  --color-hoppn-yellow: #FFBF00;
+  
+  /* Lighter versions for backgrounds only */
+  --color-hoppn-orange-light: #F15029;
+  --color-hoppn-blue-light: #4C8BF5;
+  
+  /* Brand Colors (maintaining compatibility) */
   --color-hoppn-primary: #F15029;
   --color-hoppn-primary-light: #FF6B47;
   --color-hoppn-primary-dark: #D13D1A;
@@ -14,26 +23,39 @@
   --color-hoppn-accent-light: #FFD54F;
   --color-hoppn-accent-dark: #FF8F00;
   --color-hoppn-accent-muted: #FFBF0020;
+  
+  /* African-Inspired Background Tints */
+  --color-warm-cream: #fce8d2;
+  --color-soft-orange: #FFF4F0;
+  --color-gentle-blue: #F0F6FF;
+  --color-warm-yellow: #FFFBEB;
+  --color-earth-beige: #FAF7F2;
+  
+  /* Text Contrast Colors */
+  --color-text-dark: #1F2937;
+  --color-text-medium: #374151;
+  --color-text-light: #6B7280;
+  --color-text-on-colored: #FFFFFF;
 
-  /* Base colors */
-  --color-background: #ffffff;
-  --color-foreground: #171717;
+  /* Base colors - Enhanced with African warmth */
+  --color-background: #FAF7F2;
+  --color-foreground: #1F2937;
   --color-card: #ffffff;
-  --color-card-foreground: #171717;
+  --color-card-foreground: #1F2937;
   --color-popover: #ffffff;
-  --color-popover-foreground: #171717;
+  --color-popover-foreground: #1F2937;
   --color-primary: #F15029;
   --color-primary-foreground: #ffffff;
   --color-secondary: #4C8BF5;
   --color-secondary-foreground: #ffffff;
-  --color-muted: #F3F4F6;
-  --color-muted-foreground: #6B7280;
+  --color-muted: #fce8d2;
+  --color-muted-foreground: #374151;
   --color-accent: #FFBF00;
-  --color-accent-foreground: #171717;
+  --color-accent-foreground: #1F2937;
   --color-destructive: #EF4444;
   --color-destructive-foreground: #ffffff;
-  --color-border: #E5E7EB;
-  --color-input: #E5E7EB;
+  --color-border: #CBD5E1;
+  --color-input: #ffffff;
   --color-ring: #F15029;
   --color-chart-1: #F15029;
   --color-chart-2: #4C8BF5;
@@ -90,13 +112,14 @@ h1, h2, h3, h4, h5, h6 {
     min-width: 44px;
   }
 
-  /* Enhanced focus visibility for tablet navigation */
+  /* Enhanced focus visibility for tablet navigation - Updated for better accessibility */
   button:focus-visible, 
   a:focus-visible, 
   [role="button"]:focus-visible, 
   [tabindex="0"]:focus-visible {
-    outline: 3px solid var(--color-hoppn-primary);
+    outline: 3px solid var(--color-hoppn-orange);
     outline-offset: 2px;
+    box-shadow: 0 0 0 6px rgba(209, 61, 26, 0.2); /* Add glow effect */
   }
 
   /* Improved active states for touch */

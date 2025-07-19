@@ -1,3 +1,15 @@
+// ⚠️ CRITICAL: DO NOT MODIFY WITHOUT CODE OWNER APPROVAL
+// This file contains the core Supabase client setup for the entire application
+// Changing this file can break authentication across the entire app
+// 
+// IMPORTANT: This file uses createBrowserClient for the main supabase export
+// Client components should use createClientComponentClient from @supabase/auth-helpers-nextjs
+// 
+// If you need to modify this file:
+// 1. Contact the code owner first
+// 2. Test all authentication flows
+// 3. Update the AUTHENTICATION_FLOW.md documentation
+
 import { createBrowserClient } from '@supabase/ssr'
 import { createClient } from '@supabase/supabase-js'
 import { Database } from '@/types/supabase'

@@ -1,5 +1,9 @@
 'use client'
 
+// ⚠️ DO NOT MODIFY AUTHENTICATION SETUP WITHOUT CODE OWNER APPROVAL
+// This component uses createClientComponentClient for proper auth handling
+// DO NOT change to createBrowserClient or other client creation methods
+
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
@@ -7,19 +11,25 @@ import { Button } from '@/components/ui/button'
 import { AlertCircle, Upload, X, Search, CheckCircle, Sparkles, Plus } from 'lucide-react'
 import Image from 'next/image'
 import { useAuth } from '@/hooks/useAuth'
+import { Database } from '@/types/supabase'
+
+type Dish = Database['public']['Tables']['dishes']['Row']
 
 type DishFormProps = {
   restaurantId: string
   onSuccess?: () => void
+  dish?: Dish | null
+  mode?: 'create' | 'edit'
 }
 
-export default function DishForm({ restaurantId, onSuccess }: DishFormProps) {
+export default function DishForm({ restaurantId, onSuccess, dish, mode = 'create' }: DishFormProps) {
   const supabase = createClientComponentClient()
   const router = useRouter()
   const { user } = useAuth()
   
   // Success message state
   const [successMessage, setSuccessMessage] = useState<{title: string; description: string} | null>(null)
+  const [isEditing, setIsEditing] = useState(mode === 'edit')
   
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -72,15 +82,15 @@ export default function DishForm({ restaurantId, onSuccess }: DishFormProps) {
   ]
   
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    category: '',
-    price: '',
-    size_options: '', // New field for size customization
-    custom_ingredients: '', // Custom ingredients for this restaurant
+    name: dish?.name || '',
+    description: dish?.description || '',
+    category: dish?.category || '',
+    price: dish?.price?.toString() || '',
+    size_options: Array.isArray(dish?.size_options) ? dish.size_options.join(', ') : (dish?.size_options || ''),
+    custom_ingredients: dish?.custom_ingredients || '',
     base_spice_level: 1,
-    country_origin: '',
-    country_flag: '',
+    country_origin: dish?.country_origin || '',
+    country_flag: dish?.country_flag || '',
     origin_story: '',
     base_ingredients: '',
     is_vegetarian: false,
@@ -92,10 +102,9 @@ export default function DishForm({ restaurantId, onSuccess }: DishFormProps) {
     health_benefits: '',
     native_regions: '',
     taste_profile: '',
-    is_active: true,
-    // Restaurant-specific customizations
-    restaurant_notes: '',
-    chef_special: false
+    is_active: dish?.is_active ?? true,
+    restaurant_notes: dish?.restaurant_notes || '',
+    chef_special: dish?.chef_special || false
   })
   
   // Search for existing dishes
