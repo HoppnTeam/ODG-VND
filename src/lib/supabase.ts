@@ -59,7 +59,7 @@ export const supabaseAdmin = createClient<Database>(
 
 // Helper functions for common operations
 export const authHelpers = {
-  async signUp(email: string, password: string, userData: any) {
+  async signUp(email: string, password: string, userData?: Record<string, unknown>) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -156,7 +156,7 @@ export const dbHelpers = {
     return { data, error }
   },
 
-  async createPendingVendor(vendorData: any) {
+  async createPendingVendor(vendorData: Partial<Database['public']['Tables']['pending_vendors']['Insert']>) {
     const { data, error } = await supabase
       .from('pending_vendors')
       .insert(vendorData)
@@ -165,7 +165,7 @@ export const dbHelpers = {
     return { data, error }
   },
 
-  async createVendorUser(vendorData: any) {
+  async createVendorUser(vendorData: Partial<Database['public']['Tables']['vendor_users']['Insert']>) {
     const { data, error } = await supabase
       .from('vendor_users')
       .insert(vendorData)
@@ -174,7 +174,7 @@ export const dbHelpers = {
     return { data, error }
   },
 
-  async createRestaurant(restaurantData: any) {
+  async createRestaurant(restaurantData: Partial<Database['public']['Tables']['restaurants']['Insert']>) {
     const { data, error } = await supabase
       .from('restaurants')
       .insert(restaurantData)
@@ -183,7 +183,7 @@ export const dbHelpers = {
     return { data, error }
   },
 
-  async createDish(dishData: any) {
+  async createDish(dishData: Partial<Database['public']['Tables']['hoppn_dishes']['Insert']>) {
     const { data, error } = await supabase
       .from('hoppn_dishes')
       .insert(dishData)
@@ -192,7 +192,7 @@ export const dbHelpers = {
     return { data, error }
   },
 
-  async updateDish(dishId: string, dishData: any) {
+  async updateDish(dishId: string, dishData: Partial<Database['public']['Tables']['hoppn_dishes']['Update']>) {
     const { data, error } = await supabase
       .from('hoppn_dishes')
       .update({ ...dishData, updated_at: new Date().toISOString() })
@@ -210,7 +210,7 @@ export const dbHelpers = {
     return { error }
   },
 
-  async updateRestaurant(restaurantId: string, restaurantData: any) {
+  async updateRestaurant(restaurantId: string, restaurantData: Partial<Database['public']['Tables']['restaurants']['Update']>) {
     const { data, error } = await supabase
       .from('restaurants')
       .update({ ...restaurantData, updated_at: new Date().toISOString() })
@@ -247,7 +247,7 @@ export const dbHelpers = {
 
 // Real-time subscriptions
 export const subscriptions = {
-  subscribeToOrders(restaurantId: string, callback: (orders: any[]) => void) {
+  subscribeToOrders(restaurantId: string, callback: (orders: Database['public']['Tables']['orders']['Row'][]) => void) {
     return supabase
       .channel('orders')
       .on('postgres_changes', {
@@ -261,7 +261,7 @@ export const subscriptions = {
       .subscribe()
   },
 
-  subscribeToOrderStatus(orderId: string, callback: (order: any) => void) {
+  subscribeToOrderStatus(orderId: string, callback: (order: Database['public']['Tables']['orders']['Row']) => void) {
     return supabase
       .channel('order_status')
       .on('postgres_changes', {
@@ -275,7 +275,7 @@ export const subscriptions = {
       .subscribe()
   },
 
-  unsubscribe(channel: any) {
+  unsubscribe(channel: ReturnType<typeof supabase.channel>) {
     return supabase.removeChannel(channel)
   },
 }

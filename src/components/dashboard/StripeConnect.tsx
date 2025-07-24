@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useState, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { AlertCircle, CheckCircle, CreditCard, ExternalLink, Key, DollarSign, Calendar, FileText } from 'lucide-react'
 
@@ -40,10 +39,8 @@ type Transaction = {
 
 export default function StripeConnect({ 
   restaurantId, 
-  vendorId, 
-  onSuccess 
+  vendorId 
 }: StripeConnectProps) {
-  const supabase = createClientComponentClient()
   
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -75,9 +72,9 @@ export default function StripeConnect({
       fetchEarningsData()
       fetchTransactions()
     }
-  }, [restaurantId, isConnected, accountStatus?.id])
+  }, [restaurantId, isConnected, accountStatus?.id, checkStripeInitialization, checkStripeAccount, fetchEarningsData, fetchTransactions])
   
-  const checkStripeInitialization = async () => {
+  const checkStripeInitialization = useCallback(async () => {
     try {
       const response = await fetch('/api/stripe/initialize', {
         method: 'POST',
@@ -95,10 +92,10 @@ export default function StripeConnect({
       console.error('Error checking Stripe initialization:', err)
       setIsInitialized(false)
     }
-  }
+  }, [])
 
 
-  const fetchEarningsData = async () => {
+  const fetchEarningsData = useCallback(async () => {
     try {
       const response = await fetch('/api/stripe/earnings', {
         method: 'POST',
@@ -115,9 +112,9 @@ export default function StripeConnect({
     } catch (err) {
       console.error('Error fetching earnings:', err)
     }
-  }
+  }, [restaurantId])
 
-  const fetchTransactions = async () => {
+  const fetchTransactions = useCallback(async () => {
     try {
       const response = await fetch('/api/stripe/transactions', {
         method: 'POST',
@@ -134,7 +131,7 @@ export default function StripeConnect({
     } catch (err) {
       console.error('Error fetching transactions:', err)
     }
-  }
+  }, [restaurantId])
 
   const handleInitializeStripe = async () => {
     setInitializationLoading(true)
@@ -157,14 +154,14 @@ export default function StripeConnect({
       setIsInitialized(true)
       alert('Hoppn Stripe Platform initialized successfully! Vendors can now connect to the platform.')
       
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to initialize Stripe')
     } finally {
       setInitializationLoading(false)
     }
   }
   
-  const checkStripeAccount = async () => {
+  const checkStripeAccount = useCallback(async () => {
     console.log('🔍 StripeConnect Debug:', { restaurantId, vendorId })
     
     if (!restaurantId) {
@@ -191,7 +188,7 @@ export default function StripeConnect({
     } catch (err) {
       console.error('Error checking Stripe account:', err)
     }
-  }
+  }, [restaurantId, vendorId])
   
   const handleConnectStripe = async () => {
     setLoading(true)
@@ -231,9 +228,9 @@ export default function StripeConnect({
       // Redirect to Stripe's hosted onboarding
       window.location.href = data.url
       
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('❌ Connect error:', err)
-      setError(err.message)
+      setError(err instanceof Error ? err.message : 'Failed to create Stripe account')
     } finally {
       setLoading(false)
     }
@@ -265,8 +262,8 @@ export default function StripeConnect({
       // Redirect to Stripe Connect onboarding
       window.location.href = data.url
       
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to create account link')
     } finally {
       setLoading(false)
     }
@@ -305,8 +302,8 @@ export default function StripeConnect({
         setSyncMessage(null)
       }, 2000)
       
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to sync account')
     } finally {
       setSyncLoading(false)
     }
@@ -347,7 +344,7 @@ export default function StripeConnect({
             <h4 className="font-medium text-yellow-800">Hoppn Stripe Platform Not Initialized</h4>
           </div>
           <p className="text-sm text-yellow-700 mb-3">
-            Hoppn's Stripe Connect platform needs to be initialized before vendors can connect.
+            Hoppn&apos;s Stripe Connect platform needs to be initialized before vendors can connect.
           </p>
           <Button
             onClick={handleInitializeStripe}
@@ -481,7 +478,7 @@ export default function StripeConnect({
               ].map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
-                  onClick={() => setActiveTab(id as any)}
+                  onClick={() => setActiveTab(id as 'overview' | 'transactions' | 'payouts')}
                   className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm ${
                     activeTab === id
                       ? 'border-amber-500 text-amber-600'

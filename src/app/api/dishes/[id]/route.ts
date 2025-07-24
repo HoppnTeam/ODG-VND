@@ -23,6 +23,7 @@ export async function PATCH(
     const { data: dish, error: dishError } = await supabase
       .from('dishes')
       .select('*')
+      // @ts-expect-error - Supabase type inference issue with route params
       .eq('id', dishId)
       .eq('restaurant_id', restaurant.id)
       .single()
@@ -38,6 +39,7 @@ export async function PATCH(
         ...dishData,
         updated_at: new Date().toISOString()
       })
+      // @ts-expect-error - Supabase type inference issue with route params
       .eq('id', dishId)
       .select()
       .single()
@@ -75,6 +77,7 @@ export async function DELETE(
     const { data: dish, error: dishError } = await supabase
       .from('dishes')
       .select('*')
+      // @ts-expect-error - Supabase type inference issue with route params
       .eq('id', dishId)
       .eq('restaurant_id', restaurant.id)
       .single()
@@ -87,6 +90,7 @@ export async function DELETE(
     const { error: deleteError } = await supabase
       .from('dishes')
       .delete()
+      // @ts-expect-error - Supabase type inference issue with route params
       .eq('id', dishId)
 
     if (deleteError) {

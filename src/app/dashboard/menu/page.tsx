@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Image from 'next/image'
 import { useAuth } from '@/hooks/useAuth'
 import { useDishes } from '@/hooks/useDishes'
 import { LoadingPage } from '@/components/ui/loading'
@@ -174,9 +175,11 @@ function MenuPage() {
               {/* Dish Image */}
               <div className="relative">
                 {dish.image_url ? (
-                  <img
+                  <Image
                     src={dish.image_url}
                     alt={dish.name}
+                    width={400}
+                    height={224}
                     className="w-full h-48 md:h-56 object-cover rounded-t-xl"
                   />
                 ) : (

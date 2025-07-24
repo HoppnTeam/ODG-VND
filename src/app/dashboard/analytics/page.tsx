@@ -133,7 +133,7 @@ export default function AnalyticsPage() {
               <div className="text-6xl mb-4">📊</div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No Data Available</h3>
               <p className="text-gray-600 max-w-md mx-auto">
-                As you receive orders, you'll see which dishes are most popular with your customers.
+                As you receive orders, you&apos;ll see which dishes are most popular with your customers.
               </p>
             </div>
           </div>

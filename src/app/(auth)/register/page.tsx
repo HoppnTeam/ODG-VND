@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { 
   vendorRegistrationSchema,
@@ -11,8 +12,6 @@ import {
 } from '@/lib/validation'
 import { VendorRegistrationForm } from '@/components/forms/vendor-registration-form'
 import { LoadingButton } from '@/components/ui/loading'
-import { dbHelpers, authHelpers, supabaseAdmin } from '@/lib/supabase'
-import type { Database } from '@/types/supabase'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -61,9 +60,10 @@ export default function RegisterPage() {
 
       // Redirect to success page
       router.push('/register/success')
-    } catch (error: any) {
+    } catch (error) {
       console.error('Registration error:', error)
-      setSubmitError(error.message || 'Failed to submit registration. Please try again.')
+      const errorMessage = error instanceof Error ? error.message : 'Failed to submit registration. Please try again.'
+      setSubmitError(errorMessage)
     } finally {
       setIsSubmitting(false)
     }
@@ -75,9 +75,11 @@ export default function RegisterPage() {
         <div className="p-8">
           <div className="flex items-center justify-between mb-8">
             <Link href="/" className="flex items-center">
-              <img 
+              <Image 
                 src="/logo.png" 
                 alt="Hoppn Logo" 
+                width={40}
+                height={40}
                 className="h-10 w-auto" 
               />
               <span className="ml-2 text-2xl font-bold text-orange-600">Hoppn</span>
@@ -95,7 +97,7 @@ export default function RegisterPage() {
             <h2 className="text-lg font-semibold text-gray-900 mb-2">Vendor Registration</h2>
             <p className="text-sm text-gray-600">
               Submit your application below for review. Once approved by our admin team, 
-              you'll receive login credentials to access your vendor dashboard.
+              you&apos;ll receive login credentials to access your vendor dashboard.
             </p>
           </div>
 

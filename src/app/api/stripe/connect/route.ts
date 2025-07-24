@@ -77,13 +77,18 @@ export async function POST(request: NextRequest) {
         
         console.log('✅ Stripe Express account created:', account.id)
         accountId = account.id
-      } catch (stripeError: any) {
-        console.error('❌ Failed to create Stripe Express account:', {
+      } catch (stripeError) {
+        interface StripeErrorExtended extends Error {
+          type?: string
+          code?: string
+        }
+        const errorDetails = stripeError instanceof Error ? {
           error: stripeError.message,
-          type: stripeError.type,
-          code: stripeError.code,
+          type: (stripeError as StripeErrorExtended).type,
+          code: (stripeError as StripeErrorExtended).code,
           rawError: stripeError
-        })
+        } : { error: 'Unknown error', rawError: stripeError }
+        console.error('❌ Failed to create Stripe Express account:', errorDetails)
         throw stripeError
       }
       
@@ -111,10 +116,11 @@ export async function POST(request: NextRequest) {
       accountId,
     })
     
-  } catch (error: any) {
+  } catch (error) {
     console.error('Stripe Connect error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to create Stripe Connect account'
     return NextResponse.json(
-      { error: error.message || 'Failed to create Stripe Connect account' },
+      { error: errorMessage },
       { status: 500 }
     )
   }

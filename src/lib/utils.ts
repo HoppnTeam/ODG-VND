@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { OrderItemDisplay } from '@/types/api'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -79,7 +80,7 @@ export function generateOrderId() {
   return `HP-${new Date().getFullYear().toString().slice(-2)}-${timestamp}${randomStr}`.toUpperCase()
 }
 
-export function calculateOrderTotal(items: any[]) {
+export function calculateOrderTotal(items: OrderItemDisplay[]) {
   return items.reduce((total, item) => total + (item.price * item.quantity), 0)
 }
 
@@ -95,7 +96,7 @@ export function calculateNetPayout(subtotal: number, commission: number, stripeF
   return subtotal - commission - stripeFee
 }
 
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => void {

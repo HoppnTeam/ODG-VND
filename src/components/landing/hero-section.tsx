@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from "@/components/ui/button"
 import { ArrowRight, CheckCircle } from "lucide-react"
 import Link from "next/link"
 
@@ -21,7 +20,7 @@ export function HeroSection() {
                   with Hoppn
                 </h1>
                 <p className="text-xl text-gray-600 leading-relaxed">
-                  Join Minnesota's premier platform for authentic African cuisine. 
+                  Join Minnesota&apos;s premier platform for authentic African cuisine. 
                   Connect with customers who appreciate cultural authenticity and 
                   grow your business with our powerful vendor tools.
                 </p>
@@ -115,7 +114,7 @@ export function HeroSection() {
                   {/* Mock metrics */}
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-gray-50 p-4 rounded-lg">
-                      <div className="text-sm text-gray-600">Today's Orders</div>
+                      <div className="text-sm text-gray-600">Today&apos;s Orders</div>
                       <div className="text-2xl font-bold text-gray-900" style={{ fontFamily: 'Montserrat, sans-serif' }}>23</div>
                       <div className="text-sm text-green-600">+15% from yesterday</div>
                     </div>

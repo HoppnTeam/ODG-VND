@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import DishForm from './DishForm'
@@ -25,7 +24,6 @@ export default function DishModal({
   dish, 
   mode 
 }: DishModalProps) {
-  const [loading, setLoading] = useState(false)
 
   if (!isOpen) return null
 

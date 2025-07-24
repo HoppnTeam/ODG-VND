@@ -152,7 +152,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     borderColor: 'var(--color-border)',
                     color: 'var(--color-text-dark)',
                     '--placeholder-color': 'var(--color-text-light)',
-                    '::placeholder': { color: 'var(--color-text-light)' }
+                    '::placeholder': { color: 'var(--color-text-light)' },
+                    minHeight: '48px'
                   }}
                   onFocus={(e) => {
                     e.target.style.borderColor = 'var(--color-hoppn-orange)';
@@ -162,7 +163,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     e.target.style.borderColor = 'var(--color-border)';
                     e.target.style.boxShadow = 'none';
                   }}
-                  style={{ minHeight: '48px' }}
                 />
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-6 h-6" style={{ color: 'var(--color-text-light)' }} />
               </div>
@@ -207,30 +207,27 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <a 
                   href="/help" 
                   className="text-sm md:text-base font-medium transition-colors touch-manipulation rounded-lg px-3 py-2"
-                  style={{ color: 'var(--color-text-light)' }}
+                  style={{ color: 'var(--color-text-light)', minHeight: '44px' }}
                   onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-hoppn-orange)'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text-light)'} 
-                  style={{ minHeight: '44px' }}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text-light)'}
                 >
                   Help
                 </a>
                 <a 
                   href="/privacy" 
                   className="text-sm md:text-base font-medium transition-colors touch-manipulation rounded-lg px-3 py-2"
-                  style={{ color: 'var(--color-text-light)' }}
+                  style={{ color: 'var(--color-text-light)', minHeight: '44px' }}
                   onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-hoppn-orange)'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text-light)'} 
-                  style={{ minHeight: '44px' }}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text-light)'}
                 >
                   Privacy
                 </a>
                 <a 
                   href="/terms" 
                   className="text-sm md:text-base font-medium transition-colors touch-manipulation rounded-lg px-3 py-2"
-                  style={{ color: 'var(--color-text-light)' }}
+                  style={{ color: 'var(--color-text-light)', minHeight: '44px' }}
                   onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-hoppn-orange)'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text-light)'} 
-                  style={{ minHeight: '44px' }}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text-light)'}
                 >
                   Terms
                 </a>

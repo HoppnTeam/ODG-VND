@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Clock, User, DollarSign, CheckCircle, AlertCircle, Package } from 'lucide-react'
 import { Database } from '@/types/supabase'
+import { OrderDisplay } from '@/types/api'
 
 type OrderStatus = Database['public']['Enums']['order_status']
 
@@ -77,7 +78,7 @@ const OrderCard = React.memo(({
   isUpdating, 
   onStatusUpdate 
 }: { 
-  order: any, 
+  order: OrderDisplay, 
   isUpdating: boolean, 
   onStatusUpdate: (orderId: string, status: OrderStatus) => void 
 }) => {
@@ -128,7 +129,7 @@ const OrderCard = React.memo(({
       <div className="p-4 md:p-6 border-b" style={{ borderColor: 'var(--color-border)' }}>
         <h4 className="text-base md:text-lg font-semibold mb-3" style={{ color: 'var(--color-text-dark)' }}>Order Items</h4>
         <div className="space-y-3">
-          {Array.isArray(order.items) && (order.items as Array<{name: string, quantity: number, price: number}>).map((item, index) => (
+          {Array.isArray(order.items) && order.items.map((item, index) => (
             <div key={`${order.id}-item-${index}`} className="flex justify-between items-center">
               <div>
                 <span className="text-sm md:text-base font-medium text-gray-900">

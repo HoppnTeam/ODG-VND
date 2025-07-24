@@ -4,16 +4,31 @@
 // This component uses createClientComponentClient for proper auth handling
 // DO NOT change to createBrowserClient or other client creation methods
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Button } from '@/components/ui/button'
 import { AlertCircle, Upload, X, Search, CheckCircle, Sparkles, Plus } from 'lucide-react'
 import Image from 'next/image'
-import { useAuth } from '@/hooks/useAuth'
 import { Database } from '@/types/supabase'
 
 type Dish = Database['public']['Tables']['dishes']['Row']
+
+interface SearchResult {
+  id: string
+  name: string
+  description: string
+  prep_time: number
+  cook_time: number
+  servings: number
+  difficulty: string
+  cuisine_region: string
+  course_type: string
+  dietary_info: string[]
+  ingredients: string[]
+  instructions: string[]
+  cultural_significance: string
+}
+
 
 type DishFormProps = {
   restaurantId: string
@@ -22,24 +37,20 @@ type DishFormProps = {
   mode?: 'create' | 'edit'
 }
 
-export default function DishForm({ restaurantId, onSuccess, dish, mode = 'create' }: DishFormProps) {
+export default function DishForm({ restaurantId, onSuccess, dish }: DishFormProps) {
   const supabase = createClientComponentClient()
-  const router = useRouter()
-  const { user } = useAuth()
   
   // Success message state
   const [successMessage, setSuccessMessage] = useState<{title: string; description: string} | null>(null)
-  const [isEditing, setIsEditing] = useState(mode === 'edit')
   
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([])
-  const [searchResults, setSearchResults] = useState<any[]>([])
-  const [selectedHoppnDish, setSelectedHoppnDish] = useState<any>(null)
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
+  const [selectedHoppnDish, setSelectedHoppnDish] = useState<SearchResult | null>(null)
   const [isSearching, setIsSearching] = useState(false)
-  const [showNewDishForm, setShowNewDishForm] = useState(false)
   const [workflowMode, setWorkflowMode] = useState<'search' | 'customize' | 'create'>('search') // Track current workflow
   const [isGeneratingWithAI, setIsGeneratingWithAI] = useState(false)
   
@@ -137,7 +148,7 @@ export default function DishForm({ restaurantId, onSuccess, dish, mode = 'create
   }
 
   // Select existing dish from search results (Path 1)
-  const selectExistingDish = (dish: any) => {
+  const selectExistingDish = (dish: SearchResult) => {
     setSelectedHoppnDish(dish)
     setFormData(prev => ({
       ...prev,
@@ -266,8 +277,8 @@ export default function DishForm({ restaurantId, onSuccess, dish, mode = 'create
         const errorData = await response.json()
         throw new Error(errorData.error || 'Failed to generate dish with AI')
       }
-    } catch (error: any) {
-      setError(`Failed to generate dish with AI: ${error.message || 'Please try again'}`)
+    } catch (error: unknown) {
+      setError(`Failed to generate dish with AI: ${error instanceof Error ? error.message : 'Please try again'}`)
     } finally {
       setIsGeneratingWithAI(false)
     }
@@ -516,8 +527,8 @@ export default function DishForm({ restaurantId, onSuccess, dish, mode = 'create
         onSuccess()
       }
       
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to save dish')
     } finally {
       setLoading(false)
     }
@@ -788,7 +799,7 @@ export default function DishForm({ restaurantId, onSuccess, dish, mode = 'create
 
             <div>
               <label htmlFor="restaurant_notes" className="block text-sm font-semibold text-slate-700 mb-2">
-                Chef's Notes
+Chef&apos;s Notes
               </label>
               <textarea
                 id="restaurant_notes"
@@ -810,7 +821,7 @@ export default function DishForm({ restaurantId, onSuccess, dish, mode = 'create
                   onChange={handleCheckboxChange}
                   className="rounded border-slate-300 text-[#F15029] focus:ring-[#F15029] focus:ring-opacity-50 w-4 h-4"
                 />
-                <span className="ml-3 text-sm font-medium text-slate-700">⭐ Chef's Special</span>
+                <span className="ml-3 text-sm font-medium text-slate-700">⭐ Chef&apos;s Special</span>
               </label>
 
               <label className="flex items-center p-3 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-colors cursor-pointer">

@@ -13,7 +13,7 @@ export function CTASection() {
             Ready to grow your African restaurant?
           </h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Join Minnesota's leading platform for authentic African cuisine and 
+            Join Minnesota&apos;s leading platform for authentic African cuisine and 
             start connecting with customers who appreciate your cultural heritage.
           </p>
 

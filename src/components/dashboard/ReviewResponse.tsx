@@ -39,8 +39,8 @@ export default function ReviewAction({
       }
 
       onReviewDeleted()
-    } catch (err: any) {
-      setError(err.message || 'An error occurred while deleting the review')
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred while deleting the review')
     } finally {
       setIsDeleting(false)
     }

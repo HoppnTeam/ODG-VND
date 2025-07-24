@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat, Open_Sans } from "next/font/google";
 import "./globals.css";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Initialize console filtering for development
 if (process.env.NODE_ENV === 'development') {
@@ -77,7 +78,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${montserrat.variable} ${openSans.variable} antialiased`}
       >
-        {children}
+        <ErrorBoundary showErrorDetails={process.env.NODE_ENV === 'development'}>
+          {children}
+        </ErrorBoundary>
       </body>
     </html>
   );

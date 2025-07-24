@@ -45,7 +45,6 @@ export interface OrderWithItems extends Omit<Order, 'items'> {
 }
 
 export interface OrderItem {
-  [key: string]: any
   id: string
   dish_id: string
   dish_name: string
@@ -54,6 +53,8 @@ export interface OrderItem {
   size?: string
   special_instructions?: string
   dish?: HoppnDish
+  // Allow additional properties if needed
+  [key: string]: unknown
 }
 
 export interface DishWithRestaurant extends HoppnDish {
@@ -149,14 +150,14 @@ export interface FormErrors {
   [key: string]: string | undefined
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean
   data?: T
   error?: string
   message?: string
 }
 
-export interface PaginatedResponse<T = any> {
+export interface PaginatedResponse<T = unknown> {
   data: T[]
   page: number
   limit: number

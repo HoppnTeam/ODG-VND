@@ -124,12 +124,12 @@ export function LoadingButton({
   disabled,
   ...props 
 }: LoadingButtonProps) {
-  const baseClasses = "hoppn-button flex items-center justify-center gap-2"
+  const baseClasses = "flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
   const variantClasses = {
-    primary: "hoppn-button-primary",
-    secondary: "hoppn-button-secondary",
-    outline: "hoppn-button-outline",
-    ghost: "hoppn-button-ghost"
+    primary: "bg-orange-600 hover:bg-orange-700 text-white",
+    secondary: "bg-blue-600 hover:bg-blue-700 text-white",
+    outline: "border border-gray-300 hover:bg-gray-50 text-gray-700",
+    ghost: "hover:bg-gray-100 text-gray-700"
   }
 
   return (
@@ -138,7 +138,7 @@ export function LoadingButton({
       disabled={disabled || loading}
       {...props}
     >
-      {loading && <LoadingSpinner size="sm" color={variant === 'primary' ? 'white' : 'primary'} />}
+      {loading && <LoadingSpinner size="sm" color={variant === 'primary' || variant === 'secondary' ? 'white' : 'primary'} />}
       {loading ? loadingText : children}
     </button>
   )

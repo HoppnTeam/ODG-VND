@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { LoadingPage } from '@/components/ui/loading'
@@ -10,7 +10,13 @@ import RestaurantHours from '@/components/dashboard/RestaurantHours'
 import { Button } from '@/components/ui/button'
 import { MapPin, Phone, Mail, Globe } from 'lucide-react'
 
-export default function RestaurantPage() {
+interface BusinessHours {
+  open: string | null
+  close: string | null
+}
+
+// Component that uses search params - needs to be wrapped in Suspense
+function RestaurantPageContent() {
   const { user, loading, isAuthenticated, isVendor, hasRestaurant } = useAuth()
   const searchParams = useSearchParams()
   const tabParam = searchParams.get('tab')
@@ -306,7 +312,7 @@ export default function RestaurantPage() {
             <RestaurantHours
               restaurantId={user?.restaurant?.id || ''}
               currentHours={user?.restaurant?.business_hours ? 
-                Object.entries(user.restaurant.business_hours as Record<string, any>).map(([day, hours]: [string, any]) => ({
+                Object.entries(user.restaurant.business_hours as Record<string, BusinessHours>).map(([day, hours]: [string, BusinessHours]) => ({
                   day: day.charAt(0).toUpperCase() + day.slice(1),
                   isOpen: hours.open !== null,
                   openTime: hours.open || '09:00',
@@ -322,5 +328,14 @@ export default function RestaurantPage() {
         )}
       </div>
     </DashboardLayout>
+  )
+}
+
+// Main export with Suspense boundary
+export default function RestaurantPage() {
+  return (
+    <Suspense fallback={<LoadingPage message="Loading restaurant profile..." />}>
+      <RestaurantPageContent />
+    </Suspense>
   )
 }

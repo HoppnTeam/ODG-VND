@@ -1,9 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
-import Stripe from 'stripe'
+import { NextResponse } from 'next/server'
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     console.log('🔍 Stripe Initialize Debug:', {
       hasSecretKey: !!process.env.STRIPE_SECRET_KEY,
@@ -21,11 +18,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Initialize Stripe with the API key (using stable API version)
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2024-06-20',
-    })
-
     // Temporarily skip API verification and proceed with Connect setup
     console.log('⚠️ Skipping API verification - proceeding with Connect setup')
     
@@ -35,10 +27,11 @@ export async function POST(request: NextRequest) {
       publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
     })
     
-  } catch (error: any) {
+  } catch (error) {
     console.error('Stripe initialization error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to initialize Stripe'
     return NextResponse.json(
-      { error: error.message || 'Failed to initialize Stripe' },
+      { error: errorMessage },
       { status: 500 }
     )
   }

@@ -2,6 +2,21 @@
 
 import { useEffect, useRef } from 'react'
 
+interface LayoutShiftEntry extends PerformanceEntry {
+  value: number
+  hadRecentInput: boolean
+}
+
+interface PerformanceMemory {
+  usedJSHeapSize: number
+  totalJSHeapSize: number
+  jsHeapSizeLimit: number
+}
+
+interface PerformanceWithMemory extends Performance {
+  memory?: PerformanceMemory
+}
+
 interface PerformanceMetrics {
   pageLoadTime: number
   firstContentfulPaint: number
@@ -80,7 +95,7 @@ export function PerformanceMonitor({
       // Cumulative Layout Shift
       let clsValue = 0
       const clsObserver = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries() as any[]) {
+        for (const entry of list.getEntries() as LayoutShiftEntry[]) {
           if (!entry.hadRecentInput) {
             clsValue += entry.value
           }
@@ -97,7 +112,7 @@ export function PerformanceMonitor({
 
       // First Input Delay
       const fidObserver = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries() as any[]) {
+        for (const entry of list.getEntries() as PerformanceEventTiming[]) {
           const delay = entry.processingStart - entry.startTime
           metricsRef.current.firstInputDelay = delay
           
@@ -113,7 +128,7 @@ export function PerformanceMonitor({
     // Track memory usage (if available)
     const trackMemoryUsage = () => {
       if ('memory' in performance) {
-        const memory = (performance as any).memory
+        const memory = (performance as PerformanceWithMemory).memory
         
         if (process.env.NODE_ENV === 'development') {
           console.log(`🧠 Memory Usage:`, {
@@ -212,7 +227,7 @@ export function usePerformanceTracking() {
     return measure?.duration || 0
   }
 
-  const trackAsync = async <T>(name: string, fn: () => Promise<T>): Promise<T> => {
+  const trackAsync = async <T,>(name: string, fn: () => Promise<T>): Promise<T> => {
     markStart(name)
     try {
       const result = await fn()

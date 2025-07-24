@@ -58,7 +58,7 @@ export default function MessagesPage() {
                   </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">Your Messages</h3>
                   <p className="text-gray-600 max-w-md">
-                    Select a conversation or start a new one. You'll be able to communicate with customers about their orders here.
+                    Select a conversation or start a new one. You&apos;ll be able to communicate with customers about their orders here.
                   </p>
                 </div>
               </div>

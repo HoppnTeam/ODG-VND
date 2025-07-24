@@ -17,7 +17,7 @@ export function Footer() {
               <span className="text-xl font-bold font-heading">Hoppn</span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Minnesota's premier platform for authentic African cuisine. 
+              Minnesota&apos;s premier platform for authentic African cuisine. 
               Connecting customers with cultural authenticity and helping 
               African restaurants thrive.
             </p>

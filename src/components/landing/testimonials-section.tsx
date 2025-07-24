@@ -58,7 +58,7 @@ export function TestimonialsSection() {
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Hear from successful restaurant owners who have grown their businesses 
-              and connected with customers through Hoppn's vendor platform.
+              and connected with customers through Hoppn&apos;s vendor platform.
             </p>
           </div>
 
@@ -93,7 +93,7 @@ export function TestimonialsSection() {
                 <div className="relative">
                   <Quote className="absolute -top-2 -left-2 w-8 h-8 text-orange-200" />
                   <blockquote className="text-gray-700 leading-relaxed pl-6">
-                    "{testimonial.quote}"
+                    &quot;{testimonial.quote}&quot;
                   </blockquote>
                 </div>
               </HoppnCard>

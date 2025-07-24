@@ -19,6 +19,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { Database } from '@/types/supabase'
+import { CookieOptions } from '@/types/api'
 
 export async function createServerSupabaseClient() {
   const cookieStore = await cookies()
@@ -31,7 +32,7 @@ export async function createServerSupabaseClient() {
         get(name: string) {
           return cookieStore.get(name)?.value
         },
-        set(name: string, value: string, options: any) {
+        set(name: string, value: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value, ...options })
           } catch (error) {
@@ -39,7 +40,7 @@ export async function createServerSupabaseClient() {
             console.warn('Failed to set cookie:', error)
           }
         },
-        remove(name: string, options: any) {
+        remove(name: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value: '', ...options })
           } catch (error) {
@@ -167,7 +168,7 @@ export const serverDbHelpers = {
     return { data, error }
   },
 
-  async createVendorUser(vendorData: any) {
+  async createVendorUser(vendorData: Partial<Database['public']['Tables']['vendor_users']['Insert']>) {
     const supabase = await createServerSupabaseClient()
     const { data, error } = await supabase
       .from('vendor_users')
@@ -177,7 +178,7 @@ export const serverDbHelpers = {
     return { data, error }
   },
 
-  async createRestaurant(restaurantData: any) {
+  async createRestaurant(restaurantData: Partial<Database['public']['Tables']['restaurants']['Insert']>) {
     const supabase = await createServerSupabaseClient()
     const { data, error } = await supabase
       .from('restaurants')
@@ -187,7 +188,7 @@ export const serverDbHelpers = {
     return { data, error }
   },
 
-  async updateRestaurant(restaurantId: string, restaurantData: any) {
+  async updateRestaurant(restaurantId: string, restaurantData: Partial<Database['public']['Tables']['restaurants']['Update']>) {
     const supabase = await createServerSupabaseClient()
     const { data, error } = await supabase
       .from('restaurants')

@@ -49,7 +49,7 @@ export default function RegistrationSuccessPage() {
                   <div>
                     <p className="text-sm font-medium text-gray-900">Email Notification</p>
                     <p className="text-sm text-gray-600">
-                      You'll receive an email notification once your application is approved or if we need additional information.
+                      You&apos;ll receive an email notification once your application is approved or if we need additional information.
                     </p>
                   </div>
                 </div>
@@ -61,7 +61,7 @@ export default function RegistrationSuccessPage() {
                   <div>
                     <p className="text-sm font-medium text-gray-900">Dashboard Access</p>
                     <p className="text-sm text-gray-600">
-                      Once approved, you'll get immediate access to your vendor dashboard to set up your menu and start receiving orders.
+                      Once approved, you&apos;ll get immediate access to your vendor dashboard to set up your menu and start receiving orders.
                     </p>
                   </div>
                 </div>

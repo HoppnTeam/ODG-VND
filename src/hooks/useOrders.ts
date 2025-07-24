@@ -7,7 +7,6 @@
 // If authentication modifications are needed, contact code owner first
 
 import { useState, useEffect, useCallback } from 'react'
-import { supabase } from '@/lib/supabase'
 import { Database } from '@/types/supabase'
 import { useAuth } from './useAuth'
 

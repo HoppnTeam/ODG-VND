@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import type { Database } from '@/types/supabase'
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,8 +9,8 @@ export async function POST(request: NextRequest) {
     // Check if user already exists by email
     const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers()
 
-    let authData: any = { user: null }
-    let authError: any = null
+    let authData: { user: SupabaseAdminUser | null } = { user: null }
+    let authError: Error | null = null
 
     // Find user with matching email
     const existingUser = existingUsers?.users?.find(user => user.email === email)
@@ -51,24 +50,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Parse address into components (simplified for now)
-    const addressParts = formVendorData.address.split(', ')
-    let streetAddress = formVendorData.address
-    let city = 'Not Provided'
-    let state = 'Not Provided'
-    let zipCode = 'Not Provided'
-    
-    // Try to parse the address if it has typical format
-    if (addressParts.length >= 3) {
-      streetAddress = addressParts[0]
-      city = addressParts[1]
-      // Last part might contain state and zip
-      const stateZip = addressParts[addressParts.length - 1].split(' ')
-      if (stateZip.length >= 2) {
-        state = stateZip[0]
-        zipCode = stateZip[stateZip.length - 1]
-      }
-    }
 
     // Prepare data for pending_vendors table - matching actual schema
     const registrationData = {
@@ -99,7 +80,7 @@ export async function POST(request: NextRequest) {
       // Update the existing pending vendor application
       const result = await supabaseAdmin
         .from('pending_vendors')
-        .update(registrationData as any)
+        .update(registrationData)
         .eq('email', email)
         .select()
         .single()
@@ -110,7 +91,7 @@ export async function POST(request: NextRequest) {
       // Insert new pending vendor application
       const result = await supabaseAdmin
         .from('pending_vendors')
-        .insert(registrationData as any)
+        .insert(registrationData)
         .select()
         .single()
       

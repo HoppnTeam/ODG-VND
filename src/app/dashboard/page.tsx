@@ -13,7 +13,6 @@ import {
   UtensilsCrossed, 
   Star,
   Plus,
-  Camera,
   CreditCard,
   Clock,
   X,
@@ -52,7 +51,7 @@ export default function DashboardPage() {
                 Application Pending
               </h2>
               <p className="text-gray-600 mb-6">
-                Your vendor application is still being reviewed. You'll receive an email notification once it's approved.
+                Your vendor application is still being reviewed. You&apos;ll receive an email notification once it&apos;s approved.
               </p>
               <button
                 onClick={() => router.push('/login')}
@@ -117,10 +116,10 @@ export default function DashboardPage() {
         
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {/* Today's Orders */}
+          {/* Today&apos;s Orders */}
           <div className="rounded-lg shadow-sm p-6" style={{ backgroundColor: 'var(--color-soft-orange)' }}>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold" style={{ color: 'var(--color-text-dark)' }}>Today's Orders</h3>
+              <h3 className="text-lg font-semibold" style={{ color: 'var(--color-text-dark)' }}>Today&apos;s Orders</h3>
               <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-hoppn-orange)' }}>
                 <ShoppingBag className="w-4 h-4" style={{ color: 'var(--color-text-on-colored)' }} />
               </div>

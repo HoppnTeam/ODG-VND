@@ -70,10 +70,11 @@ export async function POST(request: NextRequest) {
       },
     })
     
-  } catch (error: any) {
+  } catch (error) {
     console.error('Stripe account status error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to get account status'
     return NextResponse.json(
-      { error: error.message || 'Failed to get account status' },
+      { error: errorMessage },
       { status: 500 }
     )
   }

@@ -79,10 +79,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       client_secret: accountSession.client_secret,
     })
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating connect session:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to create connect session'
     return NextResponse.json(
-      { error: error.message || 'Failed to create connect session' },
+      { error: errorMessage },
       { status: 500 }
     )
   }

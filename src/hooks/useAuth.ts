@@ -19,7 +19,7 @@
 // 4. Test protected route access
 // 5. Update the AUTHENTICATION_FLOW.md documentation
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { User } from '@supabase/supabase-js'
 import { supabase, authHelpers, dbHelpers } from '@/lib/supabase'
 import { VendorUser, Restaurant } from '@/types'
@@ -42,40 +42,7 @@ export function useAuth() {
     error: null
   })
 
-  useEffect(() => {
-    // Get initial session
-    const getInitialSession = async () => {
-      try {
-        const { session } = await authHelpers.getCurrentSession()
-        
-        if (session?.user) {
-          await loadUserData(session.user)
-        } else {
-          setState({ user: null, loading: false, error: null })
-        }
-      } catch (error) {
-        console.error('Error getting initial session:', error)
-        setState({ user: null, loading: false, error: 'Failed to load session' })
-      }
-    }
-
-    getInitialSession()
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (session?.user) {
-          await loadUserData(session.user)
-        } else {
-          setState({ user: null, loading: false, error: null })
-        }
-      }
-    )
-
-    return () => subscription.unsubscribe()
-  }, [])
-
-  const loadUserData = async (user: User) => {
+  const loadUserData = useCallback(async (user: User) => {
     try {
       setState(prev => ({ ...prev, loading: true, error: null }))
 
@@ -135,13 +102,46 @@ export function useAuth() {
         error: 'Failed to load user data' 
       })
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    // Get initial session
+    const getInitialSession = async () => {
+      try {
+        const { session } = await authHelpers.getCurrentSession()
+        
+        if (session?.user) {
+          await loadUserData(session.user)
+        } else {
+          setState({ user: null, loading: false, error: null })
+        }
+      } catch (error) {
+        console.error('Error getting initial session:', error)
+        setState({ user: null, loading: false, error: 'Failed to load session' })
+      }
+    }
+
+    getInitialSession()
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (session?.user) {
+          await loadUserData(session.user)
+        } else {
+          setState({ user: null, loading: false, error: null })
+        }
+      }
+    )
+
+    return () => subscription.unsubscribe()
+  }, [loadUserData])
 
   const signIn = async (email: string, password: string) => {
     try {
       setState(prev => ({ ...prev, loading: true, error: null }))
       
-      const { data, error } = await authHelpers.signIn(email, password)
+      const { error } = await authHelpers.signIn(email, password)
       
       if (error) {
         throw error
@@ -149,13 +149,14 @@ export function useAuth() {
 
       // User data will be loaded by the auth state change listener
       return { success: true, error: null }
-    } catch (error: any) {
-      setState(prev => ({ ...prev, loading: false, error: error.message }))
-      return { success: false, error: error.message }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Sign in failed'
+      setState(prev => ({ ...prev, loading: false, error: errorMessage }))
+      return { success: false, error: errorMessage }
     }
   }
 
-  const signUp = async (email: string, password: string, userData: any) => {
+  const signUp = async (email: string, password: string, userData?: Record<string, unknown>) => {
     try {
       setState(prev => ({ ...prev, loading: true, error: null }))
       
@@ -166,9 +167,10 @@ export function useAuth() {
       }
 
       return { success: true, error: null, data }
-    } catch (error: any) {
-      setState(prev => ({ ...prev, loading: false, error: error.message }))
-      return { success: false, error: error.message }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Sign up failed'
+      setState(prev => ({ ...prev, loading: false, error: errorMessage }))
+      return { success: false, error: errorMessage }
     }
   }
 
@@ -184,9 +186,10 @@ export function useAuth() {
 
       setState({ user: null, loading: false, error: null })
       return { success: true, error: null }
-    } catch (error: any) {
-      setState(prev => ({ ...prev, loading: false, error: error.message }))
-      return { success: false, error: error.message }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Sign out failed'
+      setState(prev => ({ ...prev, loading: false, error: errorMessage }))
+      return { success: false, error: errorMessage }
     }
   }
 

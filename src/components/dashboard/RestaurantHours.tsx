@@ -102,8 +102,8 @@ export default function RestaurantHours({
         onSuccess(hours)
       }
       
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to save hours')
     } finally {
       setLoading(false)
     }

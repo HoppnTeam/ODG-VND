@@ -4,7 +4,6 @@ import { HoppnCard } from "@/components/ui/card"
 import { 
   ClipboardList, 
   ChefHat, 
-  DollarSign, 
   CreditCard, 
   Globe, 
   Smartphone,
@@ -12,7 +11,6 @@ import {
   Users,
   Star,
   Clock,
-  MessageSquare,
   BarChart3
 } from "lucide-react"
 
@@ -129,7 +127,7 @@ export function FeaturesSection() {
               </h3>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                 Join successful African restaurant owners who have transformed their 
-                businesses with Hoppn's vendor platform.
+                businesses with Hoppn&apos;s vendor platform.
               </p>
             </div>
 

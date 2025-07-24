@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { supabase } from '@/lib/supabase'
 import { Card } from '@/components/ui/card'
@@ -11,18 +11,34 @@ import { Select } from '@/components/ui/select'
 import { LoadingSpinner } from '@/components/ui/loading'
 import DashboardLayout from '@/components/dashboard/DashboardLayout'
 
+interface Review {
+  id: string
+  rating: number
+  comment: string
+  created_at: string
+  customer_name: string
+  dish_name: string
+  spice_level: number
+  hidden: boolean
+}
+
+interface Dish {
+  id: string
+  name: string
+}
+
 export default function ReviewsPage() {
   const { user, isVendor, hasRestaurant } = useAuth()
   const [loading, setLoading] = useState(true)
-  const [reviews, setReviews] = useState<any[]>([])
-  const [filteredReviews, setFilteredReviews] = useState<any[]>([])
+  const [reviews, setReviews] = useState<Review[]>([])
+  const [filteredReviews, setFilteredReviews] = useState<Review[]>([])
   const [filterRating, setFilterRating] = useState<string>('all')
   const [filterDish, setFilterDish] = useState<string>('all')
   const [filterDate, setFilterDate] = useState<string>('all')
   const [filterHidden, setFilterHidden] = useState<string>('visible')
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [actionLoading, setActionLoading] = useState<string | null>(null)
-  const [dishes, setDishes] = useState<any[]>([])
+  const [dishes, setDishes] = useState<Dish[]>([])
   const [stats, setStats] = useState({
     averageRating: 0,
     totalReviews: 0,
@@ -43,16 +59,18 @@ export default function ReviewsPage() {
       fetchReviews()
       fetchDishes()
     }
-  }, [user?.restaurant?.id, isVendor, user, hasRestaurant])
+  }, [user?.restaurant?.id, isVendor, user, hasRestaurant, fetchReviews, fetchDishes])
 
   useEffect(() => {
     if (reviews.length > 0) {
       applyFilters()
       calculateStats()
     }
-  }, [reviews, filterRating, filterDish, filterDate, filterHidden, searchTerm])
+  }, [reviews, filterRating, filterDish, filterDate, filterHidden, searchTerm, applyFilters, calculateStats])
 
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
+    if (!user?.restaurant?.id) return
+    
     try {
       setLoading(true)
       const { data, error } = await supabase
@@ -63,7 +81,7 @@ export default function ReviewsPage() {
           dish:dish_id(*),
           order:order_id(*)
         `)
-        .eq('restaurant_id', user?.restaurant?.id!)
+        .eq('restaurant_id', user.restaurant.id)
         .order('created_at', { ascending: false })
 
       if (error) throw error
@@ -75,23 +93,25 @@ export default function ReviewsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [user?.restaurant?.id])
 
-  const fetchDishes = async () => {
+  const fetchDishes = useCallback(async () => {
+    if (!user?.restaurant?.id) return
+    
     try {
       const { data, error } = await supabase
         .from('dishes')
         .select('id, name')
-        .eq('restaurant_id', user?.restaurant?.id!)
+        .eq('restaurant_id', user.restaurant.id)
 
       if (error) throw error
       setDishes(data || [])
     } catch (error) {
       console.error('Error fetching dishes:', error)
     }
-  }
+  }, [user?.restaurant?.id])
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = [...reviews]
 
     // Apply rating filter
@@ -107,7 +127,7 @@ export default function ReviewsPage() {
     // Apply date filter
     if (filterDate !== 'all') {
       const now = new Date()
-      let dateLimit = new Date()
+      const dateLimit = new Date()
       
       switch (filterDate) {
         case 'today':
@@ -145,9 +165,9 @@ export default function ReviewsPage() {
     }
 
     setFilteredReviews(filtered)
-  }
+  }, [reviews, filterRating, filterDish, filterDate, filterHidden, searchTerm])
 
-  const calculateStats = () => {
+  const calculateStats = useCallback(() => {
     if (reviews.length === 0) return
 
     const totalReviews = reviews.length
@@ -193,7 +213,7 @@ export default function ReviewsPage() {
       averageCulturalExperience,
       averageOverallExperience
     })
-  }
+  }, [reviews])
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -347,8 +367,8 @@ export default function ReviewsPage() {
                 <div className="w-full rounded-full h-2 mx-2" style={{ backgroundColor: '#E5E7EB' }}>
                   <div 
                     className="h-2 rounded-full"
-                    style={{ backgroundColor: 'var(--color-hoppn-orange)' }} 
                     style={{ 
+                      backgroundColor: 'var(--color-hoppn-orange)',
                       width: `${stats.totalReviews > 0 
                         ? (stats.ratingDistribution[rating as 1|2|3|4|5] / stats.totalReviews) * 100 
                         : 0}%` 

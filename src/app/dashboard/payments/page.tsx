@@ -4,8 +4,6 @@ import { useAuth } from '@/hooks/useAuth'
 import { LoadingPage } from '@/components/ui/loading'
 import DashboardLayout from '@/components/dashboard/DashboardLayout'
 import StripeConnect from '@/components/dashboard/StripeConnect'
-import { Button } from '@/components/ui/button'
-import { CreditCard, DollarSign, Calendar } from 'lucide-react'
 
 export default function PaymentsPage() {
   const { loading, isAuthenticated, isVendor, hasRestaurant, user } = useAuth()

@@ -91,10 +91,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       transactions: allTransactions,
     })
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching transactions:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch transactions'
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch transactions' },
+      { error: errorMessage },
       { status: 500 }
     )
   }

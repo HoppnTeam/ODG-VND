@@ -74,10 +74,11 @@ export async function POST(request: NextRequest) {
       pending,
       total_volume,
     })
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error fetching earnings:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch earnings'
     return NextResponse.json(
-      { error: error.message || 'Failed to fetch earnings' },
+      { error: errorMessage },
       { status: 500 }
     )
   }

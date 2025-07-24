@@ -1,11 +1,19 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 
 export default function DebugPage() {
   const { user, loading, isAuthenticated } = useAuth()
   const [copied, setCopied] = useState(false)
+
+  // Redirect to dashboard in production
+  if (process.env.NODE_ENV === 'production') {
+    if (typeof window !== 'undefined') {
+      window.location.href = '/dashboard'
+    }
+    return null
+  }
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)

@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Button } from '@/components/ui/button'
 import { Upload, X, AlertCircle } from 'lucide-react'
 import Image from 'next/image'
 
@@ -40,7 +39,7 @@ export default function PhotoUpload({
     setUploading(new Array(files.length).fill(true))
     
     try {
-      const uploadPromises = files.map(async (file, index) => {
+      const uploadPromises = files.map(async (file) => {
         // Validate file
         if (file.size > 5 * 1024 * 1024) {
           throw new Error(`${file.name} is too large. Maximum size is 5MB.`)
@@ -90,8 +89,8 @@ export default function PhotoUpload({
         onSuccess(newPhotos)
       }
       
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Upload failed')
     } finally {
       setUploading([])
     }
@@ -134,8 +133,8 @@ export default function PhotoUpload({
         onSuccess(newPhotos)
       }
       
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Upload failed')
     } finally {
       setLoading(false)
     }

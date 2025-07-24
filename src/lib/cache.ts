@@ -10,7 +10,7 @@ interface CacheItem<T> {
 }
 
 class MemoryCache {
-  private cache = new Map<string, CacheItem<any>>()
+  private cache = new Map<string, CacheItem<unknown>>()
   private maxSize = 100 // Maximum number of items to cache
 
   set<T>(key: string, data: T, ttlMs: number = 5 * 60 * 1000): void {
@@ -183,7 +183,7 @@ export const cache = {
 }
 
 // Async cache wrapper for API calls
-export function withCache<T extends any[], R>(
+export function withCache<T extends unknown[], R>(
   fn: (...args: T) => Promise<R>,
   generateKey: (...args: T) => string,
   ttl?: number

@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       } else {
         console.log('⚠️ Using test user for sync API:', user.id)
       }
-    } catch (e) {
+    } catch {
       console.log('⚠️ Auth failed, using test user for sync API:', user.id)
     }
     
@@ -103,10 +103,11 @@ export async function POST(request: NextRequest) {
       payouts_enabled: matchingAccount.payouts_enabled,
     })
     
-  } catch (error: any) {
+  } catch (error) {
     console.error('Stripe sync error:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Failed to sync Stripe account'
     return NextResponse.json(
-      { error: error.message || 'Failed to sync Stripe account' },
+      { error: errorMessage },
       { status: 500 }
     )
   }

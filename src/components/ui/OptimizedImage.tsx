@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import Image from 'next/image'
 
 interface OptimizedImageProps {
@@ -42,16 +42,19 @@ export function OptimizedImage({
   const [isLoading, setIsLoading] = useState(true)
 
   // Generate low-quality blur placeholder
-  const generateBlurDataURL = useCallback((w: number, h: number) => {
-    const canvas = document.createElement('canvas')
-    canvas.width = w
-    canvas.height = h
-    const ctx = canvas.getContext('2d')
-    if (ctx) {
-      ctx.fillStyle = '#f3f4f6'
-      ctx.fillRect(0, 0, w, h)
+  const generateBlurDataURL = useMemo(() => {
+    return (w: number, h: number) => {
+      if (typeof document === 'undefined') return ''
+      const canvas = document.createElement('canvas')
+      canvas.width = w
+      canvas.height = h
+      const ctx = canvas.getContext('2d')
+      if (ctx) {
+        ctx.fillStyle = '#f3f4f6'
+        ctx.fillRect(0, 0, w, h)
+      }
+      return canvas.toDataURL()
     }
-    return canvas.toDataURL()
   }, [])
 
   const handleLoad = useCallback(() => {
